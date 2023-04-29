@@ -23,7 +23,7 @@ export default AuthNavigator = () => {
             <Stack.Screen name={ROUTES.LOGIN} component={Login} options={{headerShown:false}}/>
             <Stack.Screen name={ROUTES.REGISTER} component={Register} />
             <Stack.Screen name={ROUTES.FORGOT_PASSWORD} component={ForgotPassword} />
-            <Stack.Screen name={ROUTES.MAIN} component={Navigator}/>
+            {/* <Stack.Screen name={ROUTES.MAIN} component={Navigator}/> */}
         </Stack.Navigator>
     );
 }

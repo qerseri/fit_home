@@ -12,14 +12,25 @@ import { useNavigation } from '@react-navigation/native';
 import {ROUTES, CustomInput, CustomButton} from '../../components'
 
 import logo from '../../../assets/images/logo.png'
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../config/firebase';
 
 export default Login = () => {
     const navigation = useNavigation();
+    const {height} = useWindowDimensions();
 
-    const [login, setLogin] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const {height} = useWindowDimensions();
+    const handleSubmit = async() => {
+        if (email && password) {
+            try {
+                await signInWithEmailAndPassword(auth, email, password)
+            } catch(err) {
+                console.log('got error: ', err.message)
+            }
+        }
+    }
 
     return (
         <SafeAreaView style={styles.root}>
@@ -31,19 +42,19 @@ export default Login = () => {
                 />
 
                 <CustomInput 
-                    placeholder='Login' 
-                    value={login} 
-                    setValue={setLogin}
+                    placeholder='Email' 
+                    value={email} 
+                    setValue={text => setEmail(text)}
                     secureTextEntry={false}
                 />
                 <CustomInput 
                     placeholder='Password' 
                     value={password} 
-                    setValue={setPassword}
+                    setValue={text => setPassword()}
                     secureTextEntry={true}
                 />
 
-                <CustomButton text='Sign In' onPress={() => navigation.navigate(ROUTES.MAIN)}/>
+                <CustomButton text='Sign In' onPress={handleSubmit}/>
                 <CustomButton text='Forgot Password' onPress={() => navigation.navigate(ROUTES.FORGOT_PASSWORD)} type='SECONDARY'/>
 
                 <View style={styles.footer}>
