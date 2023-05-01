@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView} from 'react-native';
 import { CheckBox } from '@rneui/themed';
 import { MaterialCommunityIcons } from '@expo/vector-icons';

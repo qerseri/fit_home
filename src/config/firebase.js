@@ -48,7 +48,7 @@ export const createUserDocument = async (user, additionalData) => {
           email, username, gender, height, weight, activity, goal
         }
       )
-      console.log('succes')
+      console.log('succes adding datas')
     } catch(err) {
       console.log('got error: ', err.message)
     }

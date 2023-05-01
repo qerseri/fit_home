@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -18,19 +18,37 @@ import { auth } from '../../config/firebase';
 export default Login = () => {
     const navigation = useNavigation();
     const {height} = useWindowDimensions();
-
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [loginError, setLoginError] = useState('');
 
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        setLoginError('')
+    }, [email, password, navigation.navigate])
+
     const handleSubmit = async() => {
-        if (email && password) {
-            try {
-                await signInWithEmailAndPassword(auth, email, password)
-                setLoginError('')
-            } catch(err) {
-                console.log('got error: ', err.message)
+        try {
+            await signInWithEmailAndPassword(auth, email, password)
+        } catch(err) {
+            switch(err.code) {
+                case 'auth/missing-email':
+                    setLoginError('Email is empty');
+                    break;
+                case 'auth/invalid-email':
+                    setLoginError('Email is incorrect');
+                    break;
+                case 'auth/user-not-found':
+                    setLoginError('Email not exist');
+                    break;
+                case 'auth/wrong-password':
+                    setLoginError('Wrong password');
+                    break;
+                default:
+                    setLoginError('Something went wrong. Try again')
+                    break;
             }
+            console.log('got error: ', err.message)
         }
     }
 
@@ -90,6 +108,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     errorText: {
-        color: '#E32E2E',
+        color: '#F85376',
     }
 });

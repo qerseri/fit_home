@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { CheckBox } from '@rneui/themed';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, Foundation } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import {ROUTES, CustomInput, CustomButton} from '../../components'
 
@@ -12,33 +12,59 @@ const options = [
 
 export default UserParameters = () => {
     const navigation = useNavigation();
+    const [ageError, setAgeError] = useState();
+    const [heightError, setHeightError] = useState();
+    const [weightError, setWeightError] = useState();
 
     const [age, setAge] = useState('');
     const [height, setHeight] = useState('');
     const [weight, setWeight] = useState('');
     const [gender, setGender] = useState('');
 
-    const checkForm = () => {
+    const checkInfo = () => {
+
+        const regex = /^\d+$/
+
         if (age && height && weight && gender) {
-            return true;
+            if (regex.test(age) && regex.test(height) && regex.test(weight)) {
+                if (age < 12) {
+                    setAgeError('Allowed from the age of 12')
+                }
+                if (age > 100) {
+                    setAgeError('Allowed up to 100 years')
+                }
+                if (height < 100 && height > 250) {
+                    setHeightError('Acceptable values are 100-250')
+                }
+                if (weight < 30 && height > 200) {
+                    setWeightError('Acceptable values are 30-200')
+                }
+                
+            } else {
+                alert('Недопустимые значения')
+                return false
+            }
         } else {
-            return false;
+            alert('не все заполнено')
         }
     }
 
     const handleSubmit = () => {
-        if (checkForm()) {
+        if (checkInfo()) {
             navigation.navigate(ROUTES.ACTIVITY_AND_GOAL, {
                 gender, age, height, weight
             })
-        } else {
-            alert('Пожалуйста, заполните и выберите все поля');
         }
     }
     
     return (
         <SafeAreaView style={styles.root}>
             <View style={styles.container}>
+
+                <View style={styles.gender_icons}>
+                    <Foundation name="male-symbol" size={45} color="#3FCBFF"/>
+                    <Foundation name="female-symbol" size={45} color="#F85376"/>
+                </View>
 
                 <View style={styles.checkbox_container}>
                     {options.map((option) => (
@@ -60,18 +86,23 @@ export default UserParameters = () => {
                     setValue={text => setAge(text)}
                     keyboardtype = 'numeric'
                 />
+                <Text style={(ageError) ? styles.errorText : {display: 'none'}}>{ageError}</Text>
+
                 <CustomInput 
-                    placeholder='Height' 
+                    placeholder='Height (in centimeters)' 
                     value={height} 
                     setValue={text => setHeight(text)}
                     keyboardtype = 'numeric'
                 />
+                <Text style={(heightError) ? styles.errorText : {display: 'none'}}>{heightError}</Text>
+
                 <CustomInput 
-                    placeholder='Weight' 
+                    placeholder='Weight (in kilograms)' 
                     value={weight} 
                     setValue={text => setWeight(text)}
                     keyboardtype = 'numeric'
                 />
+                <Text style={(weightError) ? styles.errorText : {display: 'none'}}>{weightError}</Text>
 
                 <CustomButton text='Next' onPress={handleSubmit}/>
             </View>
@@ -86,10 +117,16 @@ const styles = StyleSheet.create({
     },
     container: {
         alignItems: 'center',
-        padding: 20,
+        padding: 30,
     },
     checkbox_container: {
         flexDirection: 'row',
-        justifyContent: 'center'
+    },
+    gender_icons: {
+        flexDirection: 'row',
+        gap: 100,
+    },
+    errorText: {
+        color:'#F85376'
     },
 });
