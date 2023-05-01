@@ -21,11 +21,13 @@ export default Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loginError, setLoginError] = useState('');
 
     const handleSubmit = async() => {
         if (email && password) {
             try {
                 await signInWithEmailAndPassword(auth, email, password)
+                setLoginError('')
             } catch(err) {
                 console.log('got error: ', err.message)
             }
@@ -45,21 +47,21 @@ export default Login = () => {
                     placeholder='Email' 
                     value={email} 
                     setValue={text => setEmail(text)}
-                    secureTextEntry={false}
                 />
                 <CustomInput 
                     placeholder='Password' 
                     value={password} 
-                    setValue={text => setPassword()}
+                    setValue={text => setPassword(text)}
                     secureTextEntry={true}
                 />
 
+                <Text style={(loginError) ? styles.errorText : {display: 'none'}}>{loginError}</Text>
                 <CustomButton text='Sign In' onPress={handleSubmit}/>
                 <CustomButton text='Forgot Password' onPress={() => navigation.navigate(ROUTES.FORGOT_PASSWORD)} type='SECONDARY'/>
 
                 <View style={styles.footer}>
                     <Text style={{color: 'gray', fontWeight: 'bold'}}> Don't have an account? </Text>
-                    <CustomButton text='Sign Up' onPress={() => navigation.navigate(ROUTES.REGISTER)} type='TERTIARY'/>
+                    <CustomButton text='Sign Up' onPress={() => navigation.navigate(ROUTES.USER_PARAMETERS)} type='TERTIARY'/>
                 </View>
                 
             </View>
@@ -83,8 +85,11 @@ const styles = StyleSheet.create({
     },
     footer: {
         position: 'absolute',
-        bottom: 0,
+        bottom: '-5%',
         textAlign: 'center',
         flexDirection: 'row',
+    },
+    errorText: {
+        color: '#E32E2E',
     }
 });

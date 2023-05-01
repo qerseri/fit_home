@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, SafeAreaView, TextInput} from 'react-native';
 
-export default CustomInput = ({value, setValue, placeholder, secureTextEntry}) => {
+export default CustomInput = ({value, setValue, placeholder, secureTextEntry, keyboardtype = 'default'}) => {
     return (
         <View style={styles.container}>
             <TextInput
@@ -9,6 +9,7 @@ export default CustomInput = ({value, setValue, placeholder, secureTextEntry}) =
                 placeholder={placeholder} 
                 style={styles.input}
                 secureTextEntry={secureTextEntry}
+                keyboardType={keyboardtype}
             />
         </View>
     );

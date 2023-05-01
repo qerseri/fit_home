@@ -11,7 +11,7 @@ export default CustomButton = ({onPress, text, type = 'PRIMARY'}) => {
 const styles = StyleSheet.create({
     container_PRIMARY: {
         width: '100%',
-        marginVertical: 5,
+        marginTop: '2%',
 
         backgroundColor: '#58754B',
         padding: 15,
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     container_SECONDARY: {
-        marginVertical: 10,
+        marginVertical: 15,
         alignItems:'center',
     },
     container_TERTIARY: {

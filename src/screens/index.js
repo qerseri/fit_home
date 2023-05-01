@@ -2,6 +2,8 @@
 export {default as Login} from './auth/Login';
 export {default as Register} from './auth/Register';
 export {default as ForgotPassword} from './auth/ForgotPassword';
+export {default as UserParameters} from './auth/UserParameters';
+export {default as ActivityAndGoal} from './auth/ActivityAndGoal';
 
 //home screens
 export {default as Main} from './home/Main';
