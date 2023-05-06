@@ -27,19 +27,7 @@ export default UserParameters = () => {
 
         if (age && height && weight && gender) {
             if (regex.test(age) && regex.test(height) && regex.test(weight)) {
-                if (age < 12) {
-                    setAgeError('Allowed from the age of 12')
-                }
-                if (age > 100) {
-                    setAgeError('Allowed up to 100 years')
-                }
-                if (height < 100 && height > 250) {
-                    setHeightError('Acceptable values are 100-250')
-                }
-                if (weight < 30 && height > 200) {
-                    setWeightError('Acceptable values are 30-200')
-                }
-                
+                return true
             } else {
                 alert('Недопустимые значения')
                 return false
@@ -73,7 +61,7 @@ export default UserParameters = () => {
                             title={option.label}
                             checked={gender === option.value}
                             onPress={() => setGender(option.value)}
-                            containerStyle={{backgroundColor: '#FDF7F3'}}
+                            containerStyle={{backgroundColor: '#FDF7F3', borderRadius: 10,}}
                             checkedIcon={<MaterialCommunityIcons name="check-circle" size={24} color="#58754B" />}
                             uncheckedIcon={<MaterialCommunityIcons name="checkbox-blank-circle-outline" size={24} color="#58754B" />}
                         />

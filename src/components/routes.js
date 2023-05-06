@@ -7,6 +7,8 @@ export default {
 
     MAIN: 'Main',
     CALORIE: 'Calorie',
-    INFO: 'Statistics',
+    COACH: 'Communication with the coach',
     ACCOUNT: 'Account',
+
+    CHANGE_INFO: 'Changing information',
 }

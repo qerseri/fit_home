@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Pressable, TouchableOpacity} from 'react-native
 export default CustomButton = ({onPress, text, type = 'PRIMARY'}) => {
     return (
         <TouchableOpacity onPress={onPress} style={styles[`container_${type}`]}>
-            <Text style={[styles.text, styles[`text_${type}`]]}>{text}</Text>
+            <Text style={styles[`text_${type}`]}>{text}</Text>
         </TouchableOpacity>
     );
 }
@@ -26,14 +26,31 @@ const styles = StyleSheet.create({
     container_TERTIARY: {
         alignItems:'center',
     },
-    text: {
+    container_SETTING: {
+        width: '100%',
+        marginTop: '2%',
+
+        backgroundColor: '#008080',
+        padding: 15,
+
+        alignItems:'center',
+        borderRadius: 10,
+    },
+    text_PRIMARY: {
         fontWeight: 'bold',
         color: 'white',
     },
     text_SECONDARY: {
+        fontWeight: 'bold',
         color: 'gray'
     },
     text_TERTIARY: {
-        color: '#6295A0'
+        fontWeight: 'bold',
+        color: '#006DB0'
+    },
+    text_SETTING: {
+        fontWeight: 'bold',
+        fontSize: 18,
+        color: '#F5FCFF',
     }
 });

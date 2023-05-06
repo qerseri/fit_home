@@ -6,7 +6,8 @@ import {
   View,
   TextInput,
   SafeAreaView,
-  useWindowDimensions
+  useWindowDimensions,
+  ActivityIndicator
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {ROUTES, CustomInput, CustomButton} from '../../components'
@@ -19,6 +20,7 @@ export default Login = () => {
     const navigation = useNavigation();
     const {height} = useWindowDimensions();
     const [loginError, setLoginError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState('');
@@ -29,6 +31,7 @@ export default Login = () => {
 
     const handleSubmit = async() => {
         try {
+            setLoading(true)
             await signInWithEmailAndPassword(auth, email, password)
         } catch(err) {
             switch(err.code) {
@@ -49,6 +52,8 @@ export default Login = () => {
                     break;
             }
             console.log('got error: ', err.message)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -74,7 +79,12 @@ export default Login = () => {
                 />
 
                 <Text style={(loginError) ? styles.errorText : {display: 'none'}}>{loginError}</Text>
-                <CustomButton text='Sign In' onPress={handleSubmit}/>
+
+                <CustomButton 
+                    text={loading ? <ActivityIndicator size="small" color="white" /> : 'Sign In'}
+                    onPress={handleSubmit}
+                />
+
                 <CustomButton text='Forgot Password' onPress={() => navigation.navigate(ROUTES.FORGOT_PASSWORD)} type='SECONDARY'/>
 
                 <View style={styles.footer}>

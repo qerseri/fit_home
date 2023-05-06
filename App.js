@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {useRef, useEffect} from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -7,7 +7,7 @@ import Navigator from './src/navigation/Navigator';
 import AuthNavigator from './src/navigation/AuthNavigator';
 
 import useAuth from './src/hooks/useAuth';
-import Toast from 'react-native-toast-message';
+/* import Toast from 'react-native-toast-message'; */
 
 export default App = () => {
   const {user} = useAuth();
@@ -21,12 +21,10 @@ export default App = () => {
   }
 
   return (
-    <>
-      <NavigationContainer>
-          {renderNavigator()}
-      </NavigationContainer>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
-    </>
+    <NavigationContainer>
+        {renderNavigator()}
+        {/* {<Toast ref={(ref) => Toast.setRef(ref)} />} */}
+    </NavigationContainer>
   )
 }
 

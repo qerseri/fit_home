@@ -1,30 +1,31 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, Text, View, SafeAreaView} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator} from 'react-native';
 
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../../config/firebase';
-import {ROUTES, CustomInput, CustomButton} from '../../components'
+import {ROUTES, CustomInput, CustomButton,} from '../../components'
 import { useNavigation } from '@react-navigation/native';
-
-import { showToast } from '../../components/toast';
+import toast from '../../components/toast'
 
 export default ForgotPassword = () => {
   const navigation = useNavigation();
-  const toastRef = useRef(null);
   const [errorText, setErrorText] = useState('');
+  const [loading, setLoading] = useState(false);
+  /* const toastRef = useRef(null); */
 
   const [email, setEmail] = useState('');
 
   const resetPassword = async() => {
       try {
+        setLoading(true)
         await sendPasswordResetEmail(auth, email)
         navigation.navigate(ROUTES.LOGIN)
         alert("On your email was sent recovery link");
       } catch(err) {
         switch(err.code) {
           case 'auth/missing-email':
-            /* setErrorText('Email is empty'); */
-            showToast('Email is empty')
+            /* showToast('Email is empty') */
+            toast.success("dsadasdasdas")
             break
           case 'auth/invalid-email':
             setErrorText('Email is incorrect');
@@ -36,6 +37,8 @@ export default ForgotPassword = () => {
             setErrorText('Something went wrong. Try again')
             break
         }
+      } finally {
+        setLoading(false)
       }
   }
 
@@ -51,7 +54,11 @@ export default ForgotPassword = () => {
         />
 
         <Text style={styles.errorText}>{errorText}</Text>
-        <CustomButton text='Send a recovery link' onPress={resetPassword}/>
+
+        <CustomButton 
+          text={loading ? <ActivityIndicator size="small" color="white" /> : 'Send a recovery link'} 
+          onPress={resetPassword}
+        />
 
       </View>
     </SafeAreaView>

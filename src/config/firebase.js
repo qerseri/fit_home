@@ -2,6 +2,9 @@ import { initializeApp } from "firebase/app";
 
 import {getAuth} from 'firebase/auth';
 import { getFirestore, doc, setDoc, getDoc} from 'firebase/firestore';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -15,12 +18,10 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export const firestore = getFirestore(app);
-
-
 
 
 export const createUserDocument = async (user, additionalData) => {
@@ -36,16 +37,21 @@ export const createUserDocument = async (user, additionalData) => {
     const {email} = user;
     const {username} = additionalData;
     const {gender} = additionalData;
+    const {age} = additionalData;
     const {height} = additionalData;
     const {weight} = additionalData;
     const {activity} = additionalData;
     const {goal} = additionalData;
+    const {activityRatio} = additionalData;
+    const {goalRatio} = additionalData;
+    const isCoach = false;
     try{
       // Создание документа пользователя
       await setDoc(
         userRef,
         {
-          email, username, gender, height, weight, activity, goal
+          email, username, gender, age, height, weight, 
+          activity, goal, activityRatio, goalRatio, isCoach
         }
       )
       console.log('succes adding datas')
@@ -54,3 +60,7 @@ export const createUserDocument = async (user, additionalData) => {
     }
   }
 }
+
+firebase.initializeApp(firebaseConfig);
+
+export {firebase};

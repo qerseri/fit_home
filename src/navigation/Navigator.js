@@ -1,9 +1,10 @@
 import {SafeAreaView, StyleSheet,} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {MaterialIcons, Feather} from '@expo/vector-icons';
 
-import {Main, Calorie, Info, Account} from '../screens'
+import {Main, Calorie, Coach, Account} from '../screens'
+import AccountNavigator from './AccountNavigator';
 import { ROUTES } from '../components';
 
 const Tab = createBottomTabNavigator();
@@ -15,6 +16,7 @@ export default Navigator = () => {
             screenOptions={{
                 tabBarActiveTintColor: '#58754B',
                 headerTitleAlign: 'center',
+                headerTintColor: '#574327',
                 headerStyle: {
                     backgroundColor: '#93C47D',
                 }
@@ -46,22 +48,23 @@ export default Navigator = () => {
             />
 
             <Tab.Screen
-                name={ROUTES.INFO}
-                component={Info}
+                name={ROUTES.COACH}
+                component={Coach}
                 options={{
                     tabBarShowLabel: false,
                     tabBarIcon: ({ color, size }) => (
-                        <MaterialIcons name="leaderboard" color={color} size={35} />
+                        <Feather name="headphones" color={color} size={35} />
                         
                     ) 
                 }}
             />
 
             <Tab.Screen
-                name={ROUTES.ACCOUNT}
-                component={Account}
+                name={"Profile"}
+                component={AccountNavigator}
                 options={{
                     tabBarShowLabel: false,
+                    headerShown: false,
                     tabBarIcon: ({ color, size }) => (
                         <MaterialIcons name="person" color={color} size={35} />
                         

@@ -1,12 +1,14 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator } from 'react-native';
 import { auth, createUserDocument } from '../../config/firebase';
 import {ROUTES, CustomInput, CustomButton} from '../../components'
 
 export default Register = ({route}) => {
   
-  const {gender, age, height, weight, activity, goal} = route.params;
+  const {gender, age, height, weight, activity, goal, activityRatio, goalRatio} = route.params;
+
+  const [loading, setLoading] = useState(false);
 
   const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
@@ -16,10 +18,23 @@ export default Register = ({route}) => {
   const handleSubmit = async() => {
     if (email && password && username && confirmPassword == password) {
       try {
+        setLoading(true)
         const {user} = await createUserWithEmailAndPassword(auth, email, password)
-        await createUserDocument(user, {username, gender, age, height, weight, activity, goal})
+        await createUserDocument(user, {
+          username, 
+          gender, 
+          age: parseInt(age), 
+          height: parseInt(height), 
+          weight: parseInt(weight), 
+          activity,
+          goal,
+          activityRatio,
+          goalRatio,
+        })
       } catch(err) {
         console.log('got error: ', err.message)
+      } finally {
+        setLoading(false)
       }
     }
   }
@@ -50,7 +65,10 @@ export default Register = ({route}) => {
           secureTextEntry={true}
         />
 
-        <CustomButton text='Sign Up' onPress={handleSubmit}/>
+        <CustomButton 
+          text={loading ? <ActivityIndicator size="small" color="white" /> : 'Sign Up'} 
+          onPress={handleSubmit}
+        />
       </View>
     </SafeAreaView>
   );
