@@ -11,4 +11,5 @@ export default {
     ACCOUNT: 'Account',
 
     CHANGE_INFO: 'Changing information',
+    SETTINGS: 'Settings'
 }

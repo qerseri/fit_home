@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {Account, ChangeInfo} from '../screens'
+import {Account, ChangeInfo, Settings} from '../screens'
 import { ROUTES } from '../components';
 
 const Stack = createStackNavigator();
@@ -21,6 +21,7 @@ export default AuthNavigator = () => {
         >
             <Stack.Screen name={ROUTES.ACCOUNT} component={Account} />
             <Stack.Screen name={ROUTES.CHANGE_INFO} component={ChangeInfo} />
+            <Stack.Screen name={ROUTES.SETTINGS} component={Settings} />
         </Stack.Navigator>
     );
 }

@@ -13,3 +13,4 @@ export {default as Account} from './home/Account/Account';
 
 //account screens
 export {default as ChangeInfo} from './home/Account/ChangeInfo';
+export {default as Settings} from './home/Account/Settings';

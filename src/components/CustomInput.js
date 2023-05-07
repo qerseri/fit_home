@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View, SafeAreaView, TextInput} from 'react-native';
 
-export default CustomInput = ({value, setValue, placeholder, secureTextEntry, keyboardtype = 'default'}) => {
+export default CustomInput = ({value, setValue, placeholder, secureTextEntry, type = 'PRIMARY', keyboardtype = 'default'}) => {
     return (
-        <View style={styles.container}>
+        <View style={styles[`container_${type}`]}>
             <TextInput
                 value={value}
                 onChangeText={setValue}
                 placeholder={placeholder} 
-                style={styles.input}
+                style={styles[`input_${type}`]}
                 secureTextEntry={secureTextEntry}
                 keyboardType={keyboardtype}
             />
@@ -16,7 +16,7 @@ export default CustomInput = ({value, setValue, placeholder, secureTextEntry, ke
 }
 
 const styles = StyleSheet.create({
-    container: {
+    container_PRIMARY: {
         backgroundColor: 'white',
         width: '100%',
 
@@ -27,7 +27,16 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginVertical: 10,
     },
-    input: {
+    input_PRIMARY: {
+        fontSize: 16,
         padding: 10,
+    },
+    input_SECONDARY: {
+        fontSize: 15,
+        borderBottomWidth: 2,
+        borderColor: 'black',
+        textAlign: 'center',
+        marginVertical: '2%',
+        width: '60%',
     },
 });

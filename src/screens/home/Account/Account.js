@@ -6,7 +6,8 @@ import {
   View, 
   SafeAreaView, 
   ActivityIndicator, 
-  TouchableOpacity, 
+  TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
@@ -23,9 +24,8 @@ import defaultAvatar from '../../../../assets/avatars/defaultAvatar.jpeg'
 export default Account = () => {
   const { user } = useAuth();
   const navigation = useNavigation();
-
   const [avatar, setAvatar] = useState(null)
-
+ 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -33,7 +33,7 @@ export default Account = () => {
       aspect: [4, 3],
       quality: 1,
     });
-  
+    
     console.log(result);
   
     if (!result.canceled) {
@@ -52,36 +52,46 @@ export default Account = () => {
   } 
 
   return (
-    <SafeAreaView style={styles.root}>
+    <ScrollView>
+      <SafeAreaView style={styles.root}>
       
-      <View style={styles.img_container}>
-        <Image style={styles.image} source={avatar ? {uri: avatar} : defaultAvatar}/>
+        <View style={styles.container}>
+          <View style={styles.img_container}>
 
-        <TouchableOpacity style={{}} onPress={pickImage}>
-          <MaterialIcons name="edit" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
+            <Image style={styles.image} source={avatar ? {uri: avatar} : defaultAvatar}/>
 
-      <View style={styles.info_container}>
-          <Text style={styles.main_text}>Hello, {user.username}</Text>
-          <Text style={styles.text}>Age: {user.age}</Text>
-          <Text style={styles.text}>Height: {user.height} (cm)</Text>
-          <Text style={styles.text}>Weight: {user.weight} (kg)</Text>
-          <Text style={styles.text}>Gender: {user.gender}</Text>
-          <Text style={styles.text}>Your activity: {user.activity}</Text>
-          <Text style={styles.text}>Your goal: {user.goal}</Text>
-      </View>
+            <TouchableOpacity style={{}} onPress={pickImage}>
+              <MaterialIcons name="edit" size={24} color="black" />
+            </TouchableOpacity>
 
-      <View style={styles.container}>
+          </View>
 
-        <CustomButton text='Change information' type='SETTING' onPress={() => navigation.navigate(ROUTES.CHANGE_INFO)}/>
-
-        <View style={styles.footer}>
-          <CustomButton text='Log out' onPress={handlLogout} type='TERTIARY'/>
+          <Text style={styles.main_text}>{user.username}</Text>
         </View>
+      
+        <View style={styles.info_container}>
+            <Text style={styles.text}>Age: {user.age}</Text>
+            <Text style={styles.text}>Height: {user.height} (cm)</Text>
+            <Text style={styles.text}>Weight: {user.weight} (kg)</Text>
+            <Text style={styles.text}>Gender: {user.gender}</Text>
+            <Text style={styles.text}>Your activity: {user.activity}</Text>
+            <Text style={styles.text}>Your goal: {user.goal}</Text>
+        </View>
+
+        <View style={styles.container}>
+
+          <CustomButton text='Change information' type='ACC_BTN' onPress={() => navigation.navigate(ROUTES.CHANGE_INFO)}/>
+          <CustomButton text='Settings' type='ACC_BTN' onPress={() => navigation.navigate(ROUTES.SETTINGS)}/>
+
+          <View style={styles.footer}>
+            <CustomButton text='Log out' onPress={handlLogout} type='TERTIARY'/>
+          </View>
         
-      </View>
-    </SafeAreaView>
+        </View>
+
+      </SafeAreaView>
+    </ScrollView>
+    
   );
 }
 
@@ -95,14 +105,19 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   info_container: {
+    backgroundColor: '#8CA880',
+    margin: 5,
     padding: 10,
-    gap: 5,
+    borderRadius: 5,
+    gap: 3,
   },
   img_container: {
-    alignItems: 'center',
+    alignItems: 'flex-end',
     marginTop: '2%',
+    gap: -20
   },
   main_text: {
+    color: '#9966CC',
     fontWeight: 'bold',
     fontSize: 18,
   },
@@ -110,7 +125,7 @@ const styles = StyleSheet.create({
 
   },
   footer: {
-    marginTop: '5%'
+    marginTop: '3%'
   },
   image: {
     width: 110,

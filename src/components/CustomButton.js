@@ -26,12 +26,12 @@ const styles = StyleSheet.create({
     container_TERTIARY: {
         alignItems:'center',
     },
-    container_SETTING: {
+    container_ACC_BTN: {
         width: '100%',
         marginTop: '2%',
 
         backgroundColor: '#008080',
-        padding: 15,
+        padding: 10,
 
         alignItems:'center',
         borderRadius: 10,
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#006DB0'
     },
-    text_SETTING: {
+    text_ACC_BTN: {
         fontWeight: 'bold',
         fontSize: 18,
         color: '#F5FCFF',
