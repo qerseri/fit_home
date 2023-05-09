@@ -7,6 +7,7 @@ import Navigator from './src/navigation/Navigator';
 import AuthNavigator from './src/navigation/AuthNavigator';
 
 import useAuth from './src/hooks/useAuth';
+import { FitnessContext } from './Context';
 /* import Toast from 'react-native-toast-message'; */
 
 export default App = () => {
@@ -21,10 +22,12 @@ export default App = () => {
   }
 
   return (
-    <NavigationContainer>
+    <FitnessContext>
+      <NavigationContainer>
         {renderNavigator()}
         {/* {<Toast ref={(ref) => Toast.setRef(ref)} />} */}
-    </NavigationContainer>
+      </NavigationContainer>
+    </FitnessContext>
   )
 }
 

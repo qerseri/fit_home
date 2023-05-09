@@ -5,10 +5,14 @@ export default {
     USER_PARAMETERS: 'Enter your parameters',
     ACTIVITY_AND_GOAL: 'Enter your activity and goal',
 
-    MAIN: 'Main',
+    MAIN: 'Fit Home',
     CALORIE: 'Calorie',
     COACH: 'Communication with the coach',
     ACCOUNT: 'Account',
+
+    FIT_SCREEN: 'Fit',
+    REST_SCREEN: 'Rest',
+    WORKOUT_SCREEN: 'Workout',
 
     CHANGE_INFO: 'Changing information',
     SETTINGS: 'Settings'

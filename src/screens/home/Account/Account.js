@@ -52,45 +52,45 @@ export default Account = () => {
   } 
 
   return (
-    <ScrollView>
-      <SafeAreaView style={styles.root}>
-      
-        <View style={styles.container}>
-          <View style={styles.img_container}>
+    
+    <SafeAreaView style={styles.root}>
+    
+      <View style={styles.container}>
+        <View style={styles.img_container}>
 
-            <Image style={styles.image} source={avatar ? {uri: avatar} : defaultAvatar}/>
+          <Image style={styles.image} source={avatar ? {uri: avatar} : defaultAvatar}/>
 
-            <TouchableOpacity style={{}} onPress={pickImage}>
-              <MaterialIcons name="edit" size={24} color="black" />
-            </TouchableOpacity>
+          <TouchableOpacity style={{}} onPress={pickImage}>
+            <MaterialIcons name="edit" size={24} color="black" />
+          </TouchableOpacity>
 
-          </View>
+        </View>
 
-          <Text style={styles.main_text}>{user.username}</Text>
+        <Text style={styles.main_text}>{user.username}</Text>
+      </View>
+    
+      <View style={styles.info_container}>
+          <Text style={styles.text}>Age: {user.age}</Text>
+          <Text style={styles.text}>Height: {user.height} (cm)</Text>
+          <Text style={styles.text}>Weight: {user.weight} (kg)</Text>
+          <Text style={styles.text}>Gender: {user.gender}</Text>
+          <Text style={styles.text}>Your activity: {user.activity}</Text>
+          <Text style={styles.text}>Your goal: {user.goal}</Text>
+      </View>
+
+      <View style={styles.container}>
+
+        <CustomButton text='Change information' type='ACC_BTN' onPress={() => navigation.navigate(ROUTES.CHANGE_INFO)}/>
+        <CustomButton text='Settings' type='ACC_BTN' onPress={() => navigation.navigate(ROUTES.SETTINGS)}/>
+
+        <View style={styles.footer}>
+          <CustomButton text='Log out' onPress={handlLogout} type='TERTIARY'/>
         </View>
       
-        <View style={styles.info_container}>
-            <Text style={styles.text}>Age: {user.age}</Text>
-            <Text style={styles.text}>Height: {user.height} (cm)</Text>
-            <Text style={styles.text}>Weight: {user.weight} (kg)</Text>
-            <Text style={styles.text}>Gender: {user.gender}</Text>
-            <Text style={styles.text}>Your activity: {user.activity}</Text>
-            <Text style={styles.text}>Your goal: {user.goal}</Text>
-        </View>
+      </View>
 
-        <View style={styles.container}>
-
-          <CustomButton text='Change information' type='ACC_BTN' onPress={() => navigation.navigate(ROUTES.CHANGE_INFO)}/>
-          <CustomButton text='Settings' type='ACC_BTN' onPress={() => navigation.navigate(ROUTES.SETTINGS)}/>
-
-          <View style={styles.footer}>
-            <CustomButton text='Log out' onPress={handlLogout} type='TERTIARY'/>
-          </View>
-        
-        </View>
-
-      </SafeAreaView>
-    </ScrollView>
+    </SafeAreaView>
+    
     
   );
 }

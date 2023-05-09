@@ -60,7 +60,7 @@ export default Calorie = () => {
 
       <Modal visible={modalWindow} animationType='fade' transparent={true} >
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <View style={{width: 300, height: 300, backgroundColor:'#58754B', borderRadius: 10}}>
+          <View style={{width: 300, height: 300, backgroundColor:'#58754B', borderRadius: 10, borderWidth: 2, borderColor: '#3D5134'}}>
 
             <View style={{flexDirection:'row-reverse', marginTop: 5, marginLeft: 5}}>
               <AntDesign name='close' style={{color: '#E52B50', fontSize: 40}} onPress={() => setModalWindow(false)}/>

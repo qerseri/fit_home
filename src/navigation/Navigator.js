@@ -5,6 +5,7 @@ import {MaterialIcons, Feather} from '@expo/vector-icons';
 
 import {Main, Calorie, Coach, Account} from '../screens'
 import AccountNavigator from './AccountNavigator';
+import HomeNavigator from './HomeNavigator';
 import { ROUTES } from '../components';
 
 const Tab = createBottomTabNavigator();
@@ -25,7 +26,7 @@ export default Navigator = () => {
 
             <Tab.Screen
                 name="Home"
-                component={Main}
+                component={HomeNavigator}
                 options={{
                     tabBarShowLabel: false,
                     headerShown: false,
