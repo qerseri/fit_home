@@ -19,7 +19,7 @@ import { auth } from '../../../config/firebase';
 import {ROUTES, CustomInput, CustomButton} from '../../../components'
 import useAuth from '../../../hooks/useAuth';
 
-import defaultAvatar from '../../../../assets/avatars/defaultAvatar.jpeg'
+import defaultAvatar from '../../../../assets/avatars/defaultAvatar2.jpeg'
 
 export default Account = () => {
   const { user } = useAuth();
@@ -133,5 +133,9 @@ const styles = StyleSheet.create({
     borderRadius: 55,
     borderColor: '#0B8D76',
     borderWidth: 2,
-  }
+  },
+  loadingScreen: {
+    flex: 1,
+    backgroundColor: '#93C47D'
+  },
 });

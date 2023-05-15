@@ -1,7 +1,11 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, Modal, TouchableOpacity} from 'react-native';
+
 import { AntDesign } from '@expo/vector-icons';
 import {Picker} from '@react-native-picker/picker';
+import { firestore } from '../../config/firebase';
+import { collection, addDoc, updateDoc, doc } from 'firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import calculateCalorie from '../../config/calculateCalorie';
 import useAuth from '../../hooks/useAuth';
@@ -10,25 +14,101 @@ import {ROUTES, CustomInput, CustomButton} from '../../components';
 export default Calorie = () => {
   
   const { user } = useAuth();
-  const [modalWindow, setModalWindow] = useState(false)
-  const [selectedValue, setSelectedValue] = useState('option1');
+  const [modalWindow, setModalWindow] = useState(false);
+  const [selectedValue, setSelectedValue] = useState('Завтрак');
+  const [loading, setLoading] = useState(false);
 
   const [dayCalorie, setDayCalorie] = useState(null);
-  const [leftCalorie, setLeftCalorie] = useState(0);
-  const [eatenCalorie, setEatenCalorie] = useState(0);
+  const [leftCalorie, setLeftCalorie] = useState(null);
+  const [eatenCalorie, setEatenCalorie] = useState(null);
 
   const [food, setFood] = useState('');
   const [calorie, setCalorie] = useState('');
+  const [currentDate, setCurrentDate] = useState('');
 
   useEffect(() => {
     if (user) {
       calculateCalorie(user, setDayCalorie);
     }
-  }, [user]);
+
+    const today = new Date().toISOString().split('T')[0];
+    console.log('today: ', today)
+    if (currentDate !== today) {
+      setEatenCalorie(0);
+      setLeftCalorie(dayCalorie);
+      setCurrentDate(today);
+    }
+  }, [user, currentDate]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const savedLeftCalorie = await AsyncStorage.getItem('leftCalorie');
+        const savedEatenCalorie = await AsyncStorage.getItem('eatenCalorie');
+        const savedCurrentDate = await AsyncStorage.getItem('currentDate');
+
+        setLeftCalorie(parseInt(savedLeftCalorie) || dayCalorie);
+        setEatenCalorie(parseInt(savedEatenCalorie) || 0);
+        setCurrentDate(savedCurrentDate || new Date().toISOString().split('T')[0])
+
+        console.log(savedLeftCalorie)
+        console.log(savedEatenCalorie)
+        console.log(savedCurrentDate)
+      } catch (error) {
+        console.log('Error fetching data from AsyncStorage:', error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const handleSubmit = async () => {
+    if (!food || !calorie) {
+      alert('заполните все поля')
+      return;
+    }
+  
+    try {
+      const userRef = doc(firestore, 'users', user.uid);
+
+      setCurrentDate(new Date().toISOString().split('T')[0]);
+      const mealType = selectedValue;
+      const foodData = {
+        food: food,
+        calorie: calorie,
+        mealType: mealType,
+        timestamp: new Date().toISOString(),
+      };
+  
+      const mealsRef = collection(userRef, 'food', currentDate, 'meals');
+      await addDoc(mealsRef, foodData);
+
+      // Обновление состояний leftCalorie и eatenCalorie
+      const updatedEatenCalorie = eatenCalorie + parseInt(calorie);
+      const updatedLeftCalorie = dayCalorie - updatedEatenCalorie;
+  
+      setFood('');
+      setCalorie('');
+      setModalWindow(false);
+      setEatenCalorie(updatedEatenCalorie);
+      setLeftCalorie(updatedLeftCalorie);
+
+      await AsyncStorage.setItem('leftCalorie', updatedLeftCalorie.toString());
+      await AsyncStorage.setItem('eatenCalorie', updatedEatenCalorie.toString());
+      await AsyncStorage.setItem('currentDate', currentDate.toString());
+
+      alert('Добавлено')
+    } catch (error) {
+      console.log('Error adding food:', error);
+    } finally {
+      setLoading(true)
+    }
+  }
 
   if (!user) {
-    return <ActivityIndicator size="large" color="#58754B" style={styles.loadingScreen}/>;
-  }
+    return (
+      <ActivityIndicator size="large" color="#58754B" style={styles.loadingScreen}/>
+    );
+  } 
 
   return(
     <SafeAreaView style={styles.root}>
@@ -45,7 +125,7 @@ export default Calorie = () => {
         </View>
 
         <View style={styles.calorieInfo_container}>
-          <Text style={styles.infoCal_text}>{eatenCalorie}</Text>
+          <Text style={styles.infoCal_text}>{leftCalorie}</Text>
           <Text style={styles.text}>осталось</Text>
         </View>
       </View>
@@ -97,7 +177,8 @@ export default Calorie = () => {
                 keyboardtype = 'numeric'
               />
 
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={handleSubmit}>
+                
                 <AntDesign name="checkcircleo" size={40} color="black" style={{marginTop: 10}}/>
               </TouchableOpacity>
             </View>
@@ -173,6 +254,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: '3%',
     backgroundColor: '#79906E'
-  }
+  },
+  loadingScreen: {
+    flex: 1,
+    backgroundColor: '#93C47D'
+  },
 });
 
