@@ -80,17 +80,17 @@ import {
         <View style={styles.container}>
           <View>
             {index == 0 ? (
-              <CustomButton text='PREV' onPress={() => {}} type='ACC_BTN'/>
+              <CustomButton text='PREV' onPress={() => {}} type='BLUE_PRIMARY'/>
             ) : (
-              <CustomButton text='PREV' onPress={pressedPrev} type='ACC_BTN'/>
+              <CustomButton text='PREV' onPress={pressedPrev} type='BLUE_PRIMARY'/>
             )}
           </View>
           
           <View>
             {index + 1 >= excersise.length ? (
-              <CustomButton text='SKIP' onPress={() => navigation.navigate("Fit Home")} type='ACC_BTN'/>
+              <CustomButton text='SKIP' onPress={() => navigation.navigate("Fit Home")} type='BLUE_PRIMARY'/>
             ) : (
-              <CustomButton text='SKIP' onPress={pressedSkip} type='ACC_BTN'/>
+              <CustomButton text='SKIP' onPress={pressedSkip} type='BLUE_PRIMARY'/>
             )}
           </View>
         </View>

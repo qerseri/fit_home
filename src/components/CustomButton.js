@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     },
     text_PRIMARY: {
         fontWeight: 'bold',
+        fontSize: 17,
         color: 'white',
     },
     text_SECONDARY: {

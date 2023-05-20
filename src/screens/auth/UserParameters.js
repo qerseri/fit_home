@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, } from 'react-native';
 import { CheckBox } from '@rneui/themed';
 import { MaterialCommunityIcons, Foundation } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';

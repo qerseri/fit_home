@@ -12,40 +12,101 @@ import {
 
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { ref, uploadBytes, getDownloadURL, deleteObject, } from "firebase/storage";
 import * as ImagePicker from 'expo-image-picker';
+import { getDoc, doc, updateDoc } from "firebase/firestore";
+import { firestore } from "../../../config/firebase";
 
 import { signOut } from 'firebase/auth';
-import { auth } from '../../../config/firebase';
+import { auth, storage } from '../../../config/firebase';
 import {ROUTES, CustomInput, CustomButton} from '../../../components'
 import useAuth from '../../../hooks/useAuth';
 
-import defaultAvatar from '../../../../assets/avatars/defaultAvatar2.jpeg'
 import logo from '../../../../assets/images/logo.png'
 
 export default Account = () => {
   const { user } = useAuth();
   const navigation = useNavigation();
-  const [avatar, setAvatar] = useState(null)
+
+  const [image, setImage] = useState(null);
  
+  useEffect(() => {
+    if (user) {
+      setImage(user.avatar);
+    }
+  }, [user]);
+
+  const Change = async () => {
+    await deleteImage();
+    await pickImage();
+  };
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-    
-    console.log(result);
-  
+
     if (!result.canceled) {
-      setAvatar(result.uri)
+      const selectedAsset = result.assets[0];
+      const uploadURL = await uploadImageAsync(selectedAsset.uri);
+      if (uploadURL) {
+        setImage(uploadURL);
+        try {
+          const userRef = doc(firestore, `users/${user.uid}`);
+          await updateDoc(userRef, {
+            avatar: uploadURL,
+          });
+        } catch (err) {
+          console.log("got error: ", err.message);
+        }
+      }
+    } else {
+      setImage(null);
+    }
+  };
+
+  const uploadImageAsync = async (uri) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+
+    try {
+      const storageRef = ref(storage, `avatars/image-${Date.now()}`);
+      await uploadBytes(storageRef, blob);
+      const downloadURL = await getDownloadURL(storageRef);
+      return downloadURL;
+    } catch (error) {
+      console.log(`Error: ${error}`);
+      alert(`Error: ${error}`);
+      return null;
+    }
+  };
+
+  const deleteImage = async () => {
+    const deleteRef = ref(storage, image);
+    try {
+      await deleteObject(deleteRef);
+      setImage(null);
+      try {
+        const userRef = doc(firestore, `users/${user.uid}`);
+        await updateDoc(userRef, {
+          avatar: null,
+        });
+      } catch (err) {
+        console.log("got error: ", err.message);
+      }
+    } catch (error) {
+      console.log(`Error: ${error}`);
+      alert(`Error: ${error}`);
     }
   };
 
   const handlLogout = async() => {
     await signOut(auth)
   }
-
+ 
   if (!user) {
     return (
       <ActivityIndicator size="large" color="#58754B" style={styles.loadingScreen}/>
@@ -57,17 +118,21 @@ export default Account = () => {
     <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
     
       <View style={styles.container}>
+
         <View style={styles.img_container}>
+          {!image ? (
+            <Image style={styles.image} source={logo} />
+          ) : (
+              <Image style={styles.image} source={{ uri: image }} />
+          )}
 
-          <Image style={styles.image} source={avatar ? {uri: avatar} : logo}/>
-
-          <TouchableOpacity style={{}} onPress={pickImage}>
+          <TouchableOpacity style={{}} onPress={Change}>
             <MaterialIcons name="edit" size={24} color="black" />
           </TouchableOpacity>
-
         </View>
 
         <Text style={styles.main_text}>{user.firstname} {user.lastname}</Text>
+        <Text style={styles.main_text}>{user.email}</Text>
       </View>
     
       <View style={styles.info_container}>
