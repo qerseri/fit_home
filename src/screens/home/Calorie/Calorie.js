@@ -1,22 +1,23 @@
-import React, { useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect} from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, Modal, TouchableOpacity} from 'react-native';
 
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, MaterialCommunityIcons , MaterialIcons, Ionicons} from '@expo/vector-icons';
 import {Picker} from '@react-native-picker/picker';
-import { firestore } from '../../config/firebase';
-import { collection, addDoc, updateDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, updateDoc, doc} from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
-import calculateCalorie from '../../config/calculateCalorie';
-import useAuth from '../../hooks/useAuth';
-import {ROUTES, CustomInput, CustomButton} from '../../components';
+import { firestore } from '../../../config/firebase';
+import calculateCalorie from '../../../config/calculateCalorie';
+import useAuth from '../../../hooks/useAuth';
+import {ROUTES, CustomInput, CustomButton} from '../../../components';
 
 export default Calorie = () => {
-  
+  const navigation = useNavigation();
+
   const { user } = useAuth();
   const [modalWindow, setModalWindow] = useState(false);
   const [selectedValue, setSelectedValue] = useState('Завтрак');
-  const [loading, setLoading] = useState(false);
 
   const [dayCalorie, setDayCalorie] = useState(null);
   const [leftCalorie, setLeftCalorie] = useState(null);
@@ -26,12 +27,14 @@ export default Calorie = () => {
   const [calorie, setCalorie] = useState('');
   const [currentDate, setCurrentDate] = useState('');
 
+  const today = new Date().toISOString().split('T')[0];
+
   useEffect(() => {
     if (user) {
       calculateCalorie(user, setDayCalorie);
     }
 
-    const today = new Date().toISOString().split('T')[0];
+    /* const today = new Date().toISOString().split('T')[0]; */
     console.log('today: ', today)
     if (currentDate !== today) {
       setEatenCalorie(0);
@@ -50,10 +53,11 @@ export default Calorie = () => {
         setLeftCalorie(parseInt(savedLeftCalorie) || dayCalorie);
         setEatenCalorie(parseInt(savedEatenCalorie) || 0);
         setCurrentDate(savedCurrentDate || new Date().toISOString().split('T')[0])
-
+        
         console.log(savedLeftCalorie)
         console.log(savedEatenCalorie)
         console.log(savedCurrentDate)
+
       } catch (error) {
         console.log('Error fetching data from AsyncStorage:', error);
       }
@@ -70,7 +74,7 @@ export default Calorie = () => {
     try {
       const userRef = doc(firestore, 'users', user.uid);
 
-      setCurrentDate(new Date().toISOString().split('T')[0]);
+      /* setCurrentDate(new Date().toISOString().split('T')[0]); */
       const mealType = selectedValue;
       const foodData = {
         food: food,
@@ -99,8 +103,6 @@ export default Calorie = () => {
       alert('Добавлено')
     } catch (error) {
       console.log('Error adding food:', error);
-    } finally {
-      setLoading(true)
     }
   }
 
@@ -112,9 +114,17 @@ export default Calorie = () => {
 
   return(
     <SafeAreaView style={styles.root}>
+
+      <Text style={styles.title}>{today}</Text>
+
       <View style={styles.calorie_container}>
         <Text style={styles.text}>Ваша суточная норма:</Text>
-        <Text style={styles.cal_text}>{dayCalorie}</Text>
+
+        <View style={{flexDirection: 'row'}}>
+          <MaterialCommunityIcons name="food-apple" size={24} color="black" style={styles.cal_text}/>
+          <Text style={styles.cal_text}>{dayCalorie}</Text>
+        </View>
+
         <Text style={styles.text}>(ккал)</Text>
       </View>
 
@@ -125,14 +135,22 @@ export default Calorie = () => {
         </View>
 
         <View style={styles.calorieInfo_container}>
-          <Text style={styles.infoCal_text}>{leftCalorie}</Text>
+          <Text style={styles.infoCal_text}>{leftCalorie}</Text> 
           <Text style={styles.text}>осталось</Text>
         </View>
       </View>
 
-      <View style={{marginTop: '12%'}}>
+      <View style={styles.button_container}>
+        <TouchableOpacity onPress={() => navigation.navigate(ROUTES.WATER_BALANCE)}>
+          <Ionicons name="water" size={60} color="#009DD6" />
+        </TouchableOpacity>
+
         <TouchableOpacity onPress={() => setModalWindow(true)}>
-          <AntDesign name="pluscircleo" size={60} color="#008080"/>
+          <AntDesign name="pluscircleo" size={60} color="#00CC99"/>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate(ROUTES.CALORIE_HISTORY)}>
+          <MaterialIcons name="history" size={60} color="black" />
         </TouchableOpacity>
       </View>
 
@@ -212,9 +230,9 @@ const styles = StyleSheet.create({
   calorieInfo_container: {
     borderWidth: 3,
     borderColor: '#708666',
-    borderRadius: 125/2,
-    width: 125,
-    height: 125,
+    borderRadius: 150/2,
+    width: 150,
+    height: 150,
 
     padding: 20,
     marginTop: '5%',
@@ -230,7 +248,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#000000',
+    color: '#627559',
   },
   text: {
     fontWeight: 'bold',
@@ -245,8 +263,8 @@ const styles = StyleSheet.create({
   },
   infoCal_text: {
     fontWeight: 'bold',
-    fontSize: 30,
-    marginTop: '8%',
+    fontSize: 25,
+    marginTop: '18%',
     color: '#0B8D76'
   },
   picker: {
@@ -254,6 +272,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: '3%',
     backgroundColor: '#79906E'
+  },
+  button_container: {
+    marginTop: '6%', 
+    flexDirection: 'row', 
+    gap: 40, 
+    backgroundColor: '#68825D', 
+    padding: 5,
+    borderRadius: 10
   },
   loadingScreen: {
     flex: 1,

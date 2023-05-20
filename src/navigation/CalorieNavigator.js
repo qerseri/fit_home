@@ -1,12 +1,12 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {Account, ChangeInfo, ChangeActivity} from '../screens'
+import {Calorie, CalorieHistory, WaterBalance} from '../screens'
 import { ROUTES } from '../components';
 
 const Stack = createStackNavigator();
 
-export default AuthNavigator = () => {
+export default CalorieNavigator = () => {
     return (
         <Stack.Navigator 
             screenOptions={{
@@ -17,11 +17,11 @@ export default AuthNavigator = () => {
                     backgroundColor: '#93C47D',
                 }
             }} 
-            initialRouteName={ROUTES.ACCOUNT}
+            initialRouteName={ROUTES.CALORIE}
         >
-            <Stack.Screen name={ROUTES.ACCOUNT} component={Account} />
-            <Stack.Screen name={ROUTES.CHANGE_INFO} component={ChangeInfo} />
-            <Stack.Screen name={ROUTES.CHANGE_ACTIVITY} component={ChangeActivity} />
+            <Stack.Screen name={ROUTES.CALORIE} component={Calorie} />
+            <Stack.Screen name={ROUTES.CALORIE_HISTORY} component={CalorieHistory} />
+            <Stack.Screen name={ROUTES.WATER_BALANCE} component={WaterBalance} />
         </Stack.Navigator>
     );
 }

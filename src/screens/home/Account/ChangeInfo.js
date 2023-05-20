@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, ScrollView} from 'react-native';
 
 import useAuth from '../../../hooks/useAuth';
 import { firestore } from '../../../config/firebase';
@@ -23,6 +23,8 @@ export default ChangeInfo = () => {
 
     useEffect(() => {
         if (user) {
+            setFirstName(user.firstname);
+            setLastName(user.lastname);
             setAge(JSON.stringify(user.age));
             setHeight(JSON.stringify(user.height));
             setWeight(JSON.stringify(user.weight));
@@ -30,6 +32,8 @@ export default ChangeInfo = () => {
         }
     }, [user]);
 
+    const [firstname, setFirstName] = useState('');
+    const [lastname, setLastName] = useState('');
     const [age, setAge] = useState('');
     const [height, setHeight] = useState('');
     const [weight, setWeight] = useState('');
@@ -38,8 +42,8 @@ export default ChangeInfo = () => {
     const checkInfo = () => {
         const regex = /^\d+$/
 
-        if (age && height && weight && gender) {
-            if (regex.test(age) && regex.test(height) && regex.test(weight)) {
+        if (firstname && lastname && age && height && weight && gender) {
+            if  (regex.test(age) && regex.test(height) && regex.test(weight)) {
                 return true
             } else {
                 alert('Недопустимые значения')
@@ -58,6 +62,8 @@ export default ChangeInfo = () => {
                 const userDoc = await getDoc(userRef);
                 if (userDoc.exists()) {
                     await updateDoc(userRef, {
+                        firstname: firstname,
+                        lastname: lastname,
                         age: parseInt(age),
                         height: parseInt(height),
                         weight: parseInt(weight),
@@ -83,8 +89,18 @@ export default ChangeInfo = () => {
     } 
 
     return (
-        <SafeAreaView style={styles.root}>
+        <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
             <View style={styles.container}>
+                <CustomInput 
+                    placeholder='First Name' 
+                    value={firstname} 
+                    setValue={text => setFirstName(text)}
+                />
+                <CustomInput 
+                    placeholder='Last Name' 
+                    value={lastname} 
+                    setValue={text => setLastName(text)}
+                />
                 <CustomInput 
                     placeholder='Age' 
                     value={age} 
@@ -128,7 +144,7 @@ export default ChangeInfo = () => {
                     onPress={handleSubmit}
                 />
             </View>
-        </SafeAreaView>
+        </ScrollView>
     )
 }
 

@@ -20,6 +20,7 @@ import {ROUTES, CustomInput, CustomButton} from '../../../components'
 import useAuth from '../../../hooks/useAuth';
 
 import defaultAvatar from '../../../../assets/avatars/defaultAvatar2.jpeg'
+import logo from '../../../../assets/images/logo.png'
 
 export default Account = () => {
   const { user } = useAuth();
@@ -53,12 +54,12 @@ export default Account = () => {
 
   return (
     
-    <SafeAreaView style={styles.root}>
+    <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
     
       <View style={styles.container}>
         <View style={styles.img_container}>
 
-          <Image style={styles.image} source={avatar ? {uri: avatar} : defaultAvatar}/>
+          <Image style={styles.image} source={avatar ? {uri: avatar} : logo}/>
 
           <TouchableOpacity style={{}} onPress={pickImage}>
             <MaterialIcons name="edit" size={24} color="black" />
@@ -66,30 +67,28 @@ export default Account = () => {
 
         </View>
 
-        <Text style={styles.main_text}>{user.username}</Text>
+        <Text style={styles.main_text}>{user.firstname} {user.lastname}</Text>
       </View>
     
       <View style={styles.info_container}>
-          <Text style={styles.text}>Age: {user.age}</Text>
-          <Text style={styles.text}>Height: {user.height} (cm)</Text>
-          <Text style={styles.text}>Weight: {user.weight} (kg)</Text>
-          <Text style={styles.text}>Gender: {user.gender}</Text>
-          <Text style={styles.text}>Your activity: {user.activity}</Text>
-          <Text style={styles.text}>Your goal: {user.goal}</Text>
+          <Text style={styles.text}>Возраст: {user.age}</Text>
+          <Text style={styles.text}>Рост: {user.height} (cm)</Text>
+          <Text style={styles.text}>Вес: {user.weight} (kg)</Text>
+          <Text style={styles.text}>Пол: {user.gender}</Text>
+          <Text style={styles.text}>Активность: {user.activity}</Text>
+          <Text style={styles.text}>Цель: {user.goal}</Text>
       </View>
 
       <View style={styles.container}>
-
-        <CustomButton text='Change information' type='ACC_BTN' onPress={() => navigation.navigate(ROUTES.CHANGE_INFO)}/>
-        <CustomButton text='Settings' type='ACC_BTN' onPress={() => navigation.navigate(ROUTES.SETTINGS)}/>
-
-        <View style={styles.footer}>
-          <CustomButton text='Log out' onPress={handlLogout} type='TERTIARY'/>
-        </View>
+        <CustomButton text='Change information' onPress={() => navigation.navigate(ROUTES.CHANGE_INFO)}/>
+        <CustomButton text='Activity and Goal' onPress={() => navigation.navigate(ROUTES.CHANGE_ACTIVITY)}/>
+      </View>
       
+      <View style={styles.footer}>
+        <CustomButton text='Log out' onPress={handlLogout} type='BLUE_PRIMARY'/>
       </View>
 
-    </SafeAreaView>
+    </ScrollView>
     
     
   );
@@ -117,7 +116,7 @@ const styles = StyleSheet.create({
     gap: -20
   },
   main_text: {
-    color: '#9966CC',
+    color: '#627559',
     fontWeight: 'bold',
     fontSize: 18,
   },
@@ -125,6 +124,7 @@ const styles = StyleSheet.create({
 
   },
   footer: {
+    padding: 5,
     marginTop: '3%'
   },
   image: {

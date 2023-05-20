@@ -3,10 +3,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {MaterialIcons, Feather} from '@expo/vector-icons';
 
-import {Main, Calorie, Coach, Account} from '../screens'
 import AccountNavigator from './AccountNavigator';
 import HomeNavigator from './HomeNavigator';
-import { ROUTES } from '../components';
+import CoachNavigator from './CoachNavigator';
+import CalorieNavigator from './CalorieNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,10 +37,11 @@ export default Navigator = () => {
             />
 
             <Tab.Screen
-                name={ROUTES.CALORIE}
-                component={Calorie}
+                name="Calorie counting"
+                component={CalorieNavigator}
                 options={{
                     tabBarShowLabel: false,
+                    headerShown: false,
                     tabBarIcon: ({ color, size }) => (
                         <MaterialIcons name="restaurant" color={color} size={35} />
                         
@@ -49,10 +50,11 @@ export default Navigator = () => {
             />
 
             <Tab.Screen
-                name={ROUTES.COACH}
-                component={Coach}
+                name="List coaches"
+                component={CoachNavigator}
                 options={{
                     tabBarShowLabel: false,
+                    headerShown: false,
                     tabBarIcon: ({ color, size }) => (
                         <Feather name="headphones" color={color} size={35} />
                         
@@ -77,8 +79,4 @@ export default Navigator = () => {
         
     );
 };
-
-const styles = StyleSheet.create({
-  
-});
 

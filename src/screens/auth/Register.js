@@ -10,18 +10,22 @@ export default Register = ({route}) => {
 
   const [loading, setLoading] = useState(false);
 
-  const [username, setUserName] = useState('');
+  /* const [username, setUserName] = useState(''); */
+  const [firstname, setFirstName] = useState('');
+  const [lastname, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleSubmit = async() => {
-    if (email && password && username && confirmPassword == password) {
+    if (email && password && firstname && lastname && confirmPassword == password) {
       try {
         setLoading(true)
         const {user} = await createUserWithEmailAndPassword(auth, email, password)
         await createUserDocument(user, {
-          username, 
+          /* username, */ 
+          firstname,
+          lastname,
           gender, 
           age: parseInt(age), 
           height: parseInt(height), 
@@ -42,10 +46,20 @@ export default Register = ({route}) => {
   return (
     <SafeAreaView style={styles.root}>
       <View style={styles.container}>
-        <CustomInput 
+        {/* <CustomInput 
           placeholder='Username' 
           value={username} 
           setValue={text => setUserName(text)}
+        /> */}
+        <CustomInput 
+          placeholder='First Name' 
+          value={firstname} 
+          setValue={text => setFirstName(text)}
+        />
+        <CustomInput 
+          placeholder='Last Name' 
+          value={lastname} 
+          setValue={text => setLastName(text)}
         />
         <CustomInput 
           placeholder='Email' 

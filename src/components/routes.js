@@ -7,7 +7,7 @@ export default {
 
     MAIN: 'Fit Home',
     CALORIE: 'Calorie',
-    COACH: 'Communication with the coach',
+    LIST_COACHES: 'Available coaches',
     ACCOUNT: 'Account',
 
     FIT_SCREEN: 'Fit',
@@ -15,5 +15,10 @@ export default {
     WORKOUT_SCREEN: 'Workout',
 
     CHANGE_INFO: 'Changing information',
-    SETTINGS: 'Settings'
+    CHANGE_ACTIVITY: 'Changing activity and goal',
+
+    COACH: 'Coach',
+
+    CALORIE_HISTORY: 'Calorie history',
+    WATER_BALANCE: 'Water balance',
 }

@@ -1,12 +1,12 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {Account, ChangeInfo, ChangeActivity} from '../screens'
+import {ListCoaches, Coach} from '../screens'
 import { ROUTES } from '../components';
 
 const Stack = createStackNavigator();
 
-export default AuthNavigator = () => {
+export default CoachNavigator = () => {
     return (
         <Stack.Navigator 
             screenOptions={{
@@ -17,11 +17,10 @@ export default AuthNavigator = () => {
                     backgroundColor: '#93C47D',
                 }
             }} 
-            initialRouteName={ROUTES.ACCOUNT}
+            initialRouteName={ROUTES.LIST_COACHES}
         >
-            <Stack.Screen name={ROUTES.ACCOUNT} component={Account} />
-            <Stack.Screen name={ROUTES.CHANGE_INFO} component={ChangeInfo} />
-            <Stack.Screen name={ROUTES.CHANGE_ACTIVITY} component={ChangeActivity} />
+            <Stack.Screen name={ROUTES.LIST_COACHES} component={ListCoaches} />
+            <Stack.Screen name={ROUTES.COACH} component={Coach} />
         </Stack.Navigator>
     );
 }

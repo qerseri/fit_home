@@ -7,8 +7,8 @@ export {default as ActivityAndGoal} from './auth/ActivityAndGoal';
 
 //bottom tab screens
 export {default as Main} from './home/Main/Main';
-export {default as Calorie} from './home/Calorie';
-export {default as Coach} from './home/Coach';
+export {default as Calorie} from './home/Calorie/Calorie';
+export {default as ListCoaches} from './home/CoachCommucation/ListCoaches';
 export {default as Account} from './home/Account/Account';
 
 //home screens
@@ -16,6 +16,13 @@ export {default as FitScreen} from './home/Main/FitScreen';
 export {default as RestScreen} from './home/Main/RestScreen';
 export {default as WorkoutScreen} from './home/Main/WorkoutScreen';
 
+//calorie screens
+export {default as CalorieHistory} from './home/Calorie/CalorieHistory';
+export {default as WaterBalance} from './home/Calorie/WaterBalance';
+
+//coach screens
+export {default as Coach} from './home/CoachCommucation/Coach';
+
 //account screens
 export {default as ChangeInfo} from './home/Account/ChangeInfo';
-export {default as Settings} from './home/Account/Settings';
+export {default as ChangeActivity} from './home/Account/ChangeActivity';

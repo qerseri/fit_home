@@ -35,7 +35,9 @@ export const createUserDocument = async (user, additionalData) => {
 
   if(snapshot.exists) {
     const {email} = user;
-    const {username} = additionalData;
+    /* const {username} = additionalData; */
+    const {firstname} = additionalData;
+    const {lastname} = additionalData;
     const {gender} = additionalData;
     const {age} = additionalData;
     const {height} = additionalData;
@@ -50,7 +52,7 @@ export const createUserDocument = async (user, additionalData) => {
       await setDoc(
         userRef,
         {
-          email, username, gender, age, height, weight, 
+          email, firstname, lastname, gender, age, height, weight, 
           activity, goal, activityRatio, goalRatio, isCoach
         }
       )

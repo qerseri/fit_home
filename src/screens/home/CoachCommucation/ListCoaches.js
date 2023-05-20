@@ -1,9 +1,11 @@
 import { View, Text, FlatList, Pressable, StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
-import { firebase } from "../../config/firebase";
-import { useNavigation } from "@react-navigation/core";
 
-export default Coach = () => {
+import { firebase } from "../../../config/firebase";
+import { useNavigation } from "@react-navigation/core";
+import { ROUTES } from "../../../components";
+
+export default ListCoaches = () => {
   const [coaches, setCoaches] = useState([]);
   const db = firebase.firestore();
   const navigation = useNavigation();
@@ -39,7 +41,7 @@ export default Coach = () => {
               pressed || pressedIndex === index ? "#68825D" : "#58754B",
           },
         ]}
-        onPress={() => navigation.navigate("PersonStack", { user: item })}
+        onPress={() => navigation.navigate(ROUTES.COACH, { user: item })}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
       >
@@ -51,9 +53,6 @@ export default Coach = () => {
 
   return (
     <View style={styles.container}>
-
-      <Text style={styles.title}>Coaches:</Text>
-
       <FlatList
         data={coaches}
         renderItem={renderItem}
@@ -77,9 +76,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   title: {
-    fontSize: 32,
+    fontSize: 25,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 15,
   },
 });
