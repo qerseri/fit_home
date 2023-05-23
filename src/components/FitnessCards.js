@@ -5,6 +5,8 @@ import fitness from "../../assets/FitData/fitness";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
+import {ROUTES, CustomInput, CustomButton} from '../components'
+
 const FitnessCards = () => {
   const FitnessData = fitness;
   const navigation = useNavigation();
@@ -14,7 +16,7 @@ const FitnessCards = () => {
       {FitnessData.map((item, key) => (
 
         <Pressable
-        onPress={() => navigation.navigate("Workout",{
+        onPress={() => navigation.navigate(ROUTES.WORKOUT_SCREEN,{
           image:item.image,
           excersises:item.excersises,
           id:item.id,

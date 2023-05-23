@@ -9,6 +9,7 @@ export default CustomButton = ({onPress, text, type = 'PRIMARY'}) => {
 }
 
 const styles = StyleSheet.create({
+    //PRIMARY
     container_PRIMARY: {
         width: '100%',
         marginTop: '2%',
@@ -19,13 +20,32 @@ const styles = StyleSheet.create({
         alignItems:'center',
         borderRadius: 5,
     },
+    text_PRIMARY: {
+        fontWeight: 'bold',
+        fontSize: 17,
+        color: 'white',
+    },
+
+    //SECONDARY
     container_SECONDARY: {
         marginVertical: 15,
         alignItems:'center',
     },
+    text_SECONDARY: {
+        fontWeight: 'bold',
+        color: 'gray'
+    },
+
+    //TERTIARY
     container_TERTIARY: {
         alignItems:'center',
     },
+    text_TERTIARY: {
+        fontWeight: 'bold',
+        color: '#006DB0'
+    },
+
+    //BLUE PRIMARY
     container_BLUE_PRIMARY: {
         width: '100%',
         marginTop: '2%',
@@ -36,20 +56,24 @@ const styles = StyleSheet.create({
         alignItems:'center',
         borderRadius: 5,
     },
-    text_PRIMARY: {
-        fontWeight: 'bold',
-        fontSize: 17,
-        color: 'white',
-    },
-    text_SECONDARY: {
-        fontWeight: 'bold',
-        color: 'gray'
-    },
-    text_TERTIARY: {
-        fontWeight: 'bold',
-        color: '#006DB0'
-    },
     text_BLUE_PRIMARY: {
+        fontWeight: 'bold',
+        fontSize: 18,
+        color: '#F5FCFF',
+    },
+
+    //CANCEL PRIMARY
+    container_CANCEL_PRIMARY: {
+        width: '100%',
+        marginTop: '2%',
+
+        backgroundColor: '#d1877c',
+        padding: 10,
+
+        alignItems:'center',
+        borderRadius: 5,
+    },
+    text_CANCEL_PRIMARY: {
         fontWeight: 'bold',
         fontSize: 18,
         color: '#F5FCFF',

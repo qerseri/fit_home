@@ -49,13 +49,15 @@ export const createUserDocument = async (user, additionalData) => {
     const {activityRatio} = additionalData;
     const {goalRatio} = additionalData;
     const isCoach = false;
+    const coachQuery = null;
+    const coach = null;
     try{
       // Создание документа пользователя
       await setDoc(
         userRef,
         {
           email, firstname, lastname, gender, age, height, weight, 
-          activity, goal, activityRatio, goalRatio, isCoach
+          activity, goal, activityRatio, goalRatio, isCoach, coachQuery, coach
         }
       )
       console.log('succes adding datas')

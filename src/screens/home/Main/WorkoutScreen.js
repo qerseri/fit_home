@@ -13,6 +13,8 @@ import {
   import { Ionicons, AntDesign } from "@expo/vector-icons";
   import { FitnessItems} from "../../../../Context";
 
+  import {ROUTES, CustomInput, CustomButton} from '../../../components'
+
   const WorkOutScreen = () => {
     const route = useRoute();
     const navigation = useNavigation();
@@ -23,7 +25,7 @@ import {
     } = useContext(FitnessItems);
     
     const handleSubmit = () => {
-      navigation.navigate("Fit", {
+      navigation.navigate(ROUTES.FIT_SCREEN, {
         excersises:route.params.excersises,
       })
       setCompleted([]);

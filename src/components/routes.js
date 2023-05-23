@@ -1,24 +1,26 @@
 export default {
-    LOGIN: 'Sign In',
-    REGISTER: 'Create an Account',
-    FORGOT_PASSWORD: 'Forgot Password',
-    USER_PARAMETERS: 'Enter your parameters',
-    ACTIVITY_AND_GOAL: 'Enter your activity and goal',
+    LOGIN: 'Вход',
+    REGISTER: 'Создание аккаунта',
+    FORGOT_PASSWORD: 'Восстановление пароля',
+    USER_PARAMETERS: 'Параматры',
+    ACTIVITY_AND_GOAL: 'Активность и цель',
 
     MAIN: 'Fit Home',
-    CALORIE: 'Calorie',
-    LIST_COACHES: 'Available coaches',
-    ACCOUNT: 'Account',
+    CALORIE: 'Учет калорий',
+    LIST_COACHES: 'Доступные тренеры',
+    ACCOUNT: 'Профиль',
 
-    FIT_SCREEN: 'Fit',
-    REST_SCREEN: 'Rest',
-    WORKOUT_SCREEN: 'Workout',
+    FIT_SCREEN: 'Упражнение',
+    REST_SCREEN: 'Отдых',
+    WORKOUT_SCREEN: 'Тренировка',
 
-    CHANGE_INFO: 'Changing information',
-    CHANGE_ACTIVITY: 'Changing activity and goal',
+    CHANGE_INFO: 'Изменение информации',
+    CHANGE_ACTIVITY: 'Изменение активности и цели',
 
-    COACH: 'Coach',
+    COACH: 'Тренер',
+    QUERY_FOR_COACH: 'Активные запросы',
+    COACH_INTERACTION: 'Ваш тренер',
 
-    CALORIE_HISTORY: 'Calorie history',
-    WATER_BALANCE: 'Water balance',
+    CALORIE_HISTORY: 'История',
+    WATER_BALANCE: 'Водный баланс',
 }

@@ -11,6 +11,8 @@ import {
   import { useNavigation, useRoute } from "@react-navigation/native";
   import { FitnessItems } from "../../../../Context";
   
+  import {ROUTES, CustomInput, CustomButton} from '../../../components'
+
   const FitScreen = () => {
     const route = useRoute();
     const navigation = useNavigation();
@@ -31,7 +33,7 @@ import {
     } = useContext(FitnessItems);
 
     const pressedDone = () => {
-      navigation.navigate("Rest");
+      navigation.navigate(ROUTES.REST_SCREEN);
       setCompleted([...completed, current.name]);
       setWorkout(workout + 1);
       setMinutes(minutes + 2.5);
@@ -71,7 +73,7 @@ import {
         
         <View>
           {index + 1 >= excersise.length ? (
-            <CustomButton text='DONE' onPress={() => navigation.navigate("Fit Home")}/>
+            <CustomButton text='DONE' onPress={() => navigation.navigate(ROUTES.MAIN)}/>
           ) : (
             <CustomButton text='DONE' onPress={pressedDone}/>
           )}
@@ -88,7 +90,7 @@ import {
           
           <View>
             {index + 1 >= excersise.length ? (
-              <CustomButton text='SKIP' onPress={() => navigation.navigate("Fit Home")} type='BLUE_PRIMARY'/>
+              <CustomButton text='SKIP' onPress={() => navigation.navigate(ROUTES.MAIN)} type='BLUE_PRIMARY'/>
             ) : (
               <CustomButton text='SKIP' onPress={pressedSkip} type='BLUE_PRIMARY'/>
             )}

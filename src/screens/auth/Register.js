@@ -101,7 +101,7 @@ export default Register = ({route}) => {
         />
       </View>
 
-      <Modal visible={modalVisible} animationType='fade' transparent={true} >
+      <Modal visible={modalVisible} animationType='slide' transparent={true} >
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ScrollView style={{width: 350, height: 350, backgroundColor:'#CAC5C2', borderRadius: 10, borderWidth: 2, borderColor: '#A19D9B'}}>
 
