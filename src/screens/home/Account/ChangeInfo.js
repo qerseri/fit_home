@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, ScrollView} from 'react-native';
 
-import useAuth from '../../../hooks/useAuth';
+import useAuth from '../../../config/useAuth';
 import { firestore } from '../../../config/firebase';
 import { getDoc, doc, updateDoc } from 'firebase/firestore';
 import {ROUTES, CustomInput, CustomButton,} from '../../../components';
@@ -140,7 +140,7 @@ export default ChangeInfo = () => {
                 </View>
 
                 <CustomButton 
-                    text={loading ? <ActivityIndicator size="small" color="white" /> : 'Update'}
+                    text={loading ? <ActivityIndicator size="small" color="white" /> : 'Обновить'}
                     onPress={handleSubmit}
                 />
             </View>

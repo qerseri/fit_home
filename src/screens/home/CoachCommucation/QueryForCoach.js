@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { firebase } from "../../../config/firebase";
 import { firestore } from "../../../config/firebase";
 import { ROUTES } from "../../../components";
-import useAuth from '../../../hooks/useAuth';
+import useAuth from '../../../config/useAuth';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/core";
@@ -91,7 +91,7 @@ export default QueryForCoach = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#B0D3A1',
+    backgroundColor: '#E5E5E5',
   },
   container: {
     alignItems: 'center',

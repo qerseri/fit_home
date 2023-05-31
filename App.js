@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Navigator from './src/navigation/Navigator';
 import AuthNavigator from './src/navigation/AuthNavigator';
 
-import useAuth from './src/hooks/useAuth';
+import useAuth from './src/config/useAuth';
 import { FitnessContext } from './Context';
 /* import Toast from 'react-native-toast-message'; */
 

@@ -21,7 +21,7 @@ export default Register = ({route}) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
-  const handleSubmit = async() => {
+  const registerSubmit = async() => {
     if (email && password && firstname && lastname && confirmPassword == password && agreedToTerms) {
       try {
         setLoading(true)
@@ -97,13 +97,13 @@ export default Register = ({route}) => {
 
         <CustomButton 
           text={loading ? <ActivityIndicator size="small" color="white" /> : 'Зарегистрироваться'} 
-          onPress={handleSubmit}
+          onPress={registerSubmit}
         />
       </View>
 
       <Modal visible={modalVisible} animationType='slide' transparent={true} >
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <ScrollView style={{width: 350, height: 350, backgroundColor:'#CAC5C2', borderRadius: 10, borderWidth: 2, borderColor: '#A19D9B'}}>
+        <SafeAreaView style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ScrollView style={{width: 350, height: 350, backgroundColor:'#CAC5C2', borderRadius: 10, borderWidth: 2, borderColor: '#A19D9B'}} showsVerticalScrollIndicator={false}>
 
             <View style={{flexDirection:'row-reverse', marginTop: 5, marginLeft: 5}}>
               <AntDesign name='close' style={{color: '#E52B50', fontSize: 40}} onPress={() => setModalVisible(false)}/>
@@ -131,7 +131,7 @@ export default Register = ({route}) => {
                 - Мы не несем ответственности за любой ущерб или травмы, возникшие в результате использования фитнес-приложения или выполнения тренировок, рекомендованных в нем.{'\n'}
             </Text>
           </ScrollView>
-        </View>
+        </SafeAreaView>
       </Modal>
 
     </SafeAreaView>

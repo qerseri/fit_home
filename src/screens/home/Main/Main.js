@@ -11,7 +11,7 @@ const Main = () => {
   } = useContext(FitnessItems);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+   
       <SafeAreaView style={styles.root}>
 
         <View style={styles.container}>
@@ -34,7 +34,7 @@ const Main = () => {
         <FitnessCards/>
 
       </SafeAreaView>
-    </ScrollView>
+    
   );
 };
 
@@ -43,13 +43,17 @@ export default Main;
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#58754B',
+    backgroundColor: '#E5E5E5',
     padding: 10
   },
   container: {
     flexDirection: "row",  
     justifyContent: "space-between", 
     marginVertical: 10,
+    backgroundColor: '#58754B',
+    padding: 10,
+    margin: 5,
+    borderRadius: 5,
   },
   text: {
     color: "#D0D0D0", 

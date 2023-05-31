@@ -5,7 +5,7 @@ import { doc, updateDoc, getDoc, arrayUnion, arrayRemove, onSnapshot} from "fire
 import { firestore } from "../../../config/firebase";
 import { firebase } from "../../../config/firebase";
 
-import useAuth from '../../../hooks/useAuth';
+import useAuth from '../../../config/useAuth';
 
 export default CoachInteraction = () => {
 

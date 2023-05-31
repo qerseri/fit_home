@@ -6,8 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import {ROUTES, CustomInput, CustomButton} from '../../components'
 
 const options = [
-    { label: 'Male', value: 'Male' },
-    { label: 'Female', value: 'Female' },
+    { label: 'Мужчина', value: 'Male' },
+    { label: 'Женщина', value: 'Female' },
 ];
 
 export default UserParameters = () => {
@@ -69,7 +69,7 @@ export default UserParameters = () => {
                 </View>
                 
                 <CustomInput 
-                    placeholder='Age' 
+                    placeholder='Возраст' 
                     value={age} 
                     setValue={text => setAge(text)}
                     keyboardtype = 'numeric'
@@ -77,7 +77,7 @@ export default UserParameters = () => {
                 <Text style={(ageError) ? styles.errorText : {display: 'none'}}>{ageError}</Text>
 
                 <CustomInput 
-                    placeholder='Height (in centimeters)' 
+                    placeholder='Рост (в см)' 
                     value={height} 
                     setValue={text => setHeight(text)}
                     keyboardtype = 'numeric'
@@ -85,7 +85,7 @@ export default UserParameters = () => {
                 <Text style={(heightError) ? styles.errorText : {display: 'none'}}>{heightError}</Text>
 
                 <CustomInput 
-                    placeholder='Weight (in kilograms)' 
+                    placeholder='Вес (в кг)' 
                     value={weight} 
                     setValue={text => setWeight(text)}
                     keyboardtype = 'numeric'

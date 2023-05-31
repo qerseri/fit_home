@@ -14,25 +14,60 @@ import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { ref, uploadBytes, getDownloadURL, deleteObject, } from "firebase/storage";
 import * as ImagePicker from 'expo-image-picker';
-import { getDoc, doc, updateDoc } from "firebase/firestore";
+import { getDoc, doc, updateDoc, onSnapshot } from "firebase/firestore";
 import { firestore } from "../../../config/firebase";
 
 import { signOut } from 'firebase/auth';
 import { auth, storage } from '../../../config/firebase';
 import {ROUTES, CustomInput, CustomButton} from '../../../components'
-import useAuth from '../../../hooks/useAuth';
+import useAuth from '../../../config/useAuth';
 
 import logo from '../../../../assets/images/logo.png'
 
 export default Account = () => {
   const { user } = useAuth();
   const navigation = useNavigation();
-
   const [image, setImage] = useState(null);
+
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [age, setAge] = useState('');
+  const [height, setHeight] = useState('');
+  const [weight, setWeight] = useState('');
+  const [gender, setGender] = useState('');
+  const [activity, setActivity] = useState('');
+  const [goal, setGoal] = useState('');
+  
+ 
+  /* useEffect(() => {
+    if (user) {
+      setImage(user.avatar);
+    }
+  }, [user]); */
  
   useEffect(() => {
     if (user) {
-      setImage(user.avatar);
+      try {
+        setImage(user.avatar);
+
+        const userRef = doc(firestore, `users/${user.uid}`);
+        const unsubscribe = onSnapshot(userRef, async (snapshot) => {
+          setFirstname(snapshot.data().firstname)
+          setLastname(snapshot.data().lastname)
+          setAge(snapshot.data().age)
+          setHeight(snapshot.data().height)
+          setWeight(snapshot.data().weight)
+          setGender(snapshot.data().gender)
+          setActivity(snapshot.data().activity)
+          setGoal(snapshot.data().goal)
+        });
+
+        console.log('account listener')
+        return () => unsubscribe();
+
+      } catch(err) {
+        console.log('user fetching data error: ', err)
+      }
     }
   }, [user]);
 
@@ -131,26 +166,26 @@ export default Account = () => {
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.main_text}>{user.firstname} {user.lastname}</Text>
+        <Text style={styles.main_text}>{firstname} {lastname}</Text>
         <Text style={styles.main_text}>{user.email}</Text>
       </View>
     
       <View style={styles.info_container}>
-          <Text style={styles.text}>Возраст: {user.age}</Text>
-          <Text style={styles.text}>Рост: {user.height} (cm)</Text>
-          <Text style={styles.text}>Вес: {user.weight} (kg)</Text>
-          <Text style={styles.text}>Пол: {user.gender}</Text>
-          <Text style={styles.text}>Активность: {user.activity}</Text>
-          <Text style={styles.text}>Цель: {user.goal}</Text>
+          <Text style={styles.text}>Возраст: {age}</Text>
+          <Text style={styles.text}>Рост: {height} см</Text>
+          <Text style={styles.text}>Вес: {weight} кг</Text>
+          <Text style={styles.text}>Пол: {gender}</Text>
+          <Text style={styles.text}>Активность: {activity}</Text>
+          <Text style={styles.text}>Цель: {goal}</Text>
       </View>
 
       <View style={styles.container}>
-        <CustomButton text='Change information' onPress={() => navigation.navigate(ROUTES.CHANGE_INFO)}/>
-        <CustomButton text='Activity and Goal' onPress={() => navigation.navigate(ROUTES.CHANGE_ACTIVITY)}/>
+        <CustomButton text='Изменить данные' onPress={() => navigation.navigate(ROUTES.CHANGE_INFO)}/>
+        <CustomButton text='Активность и цель' onPress={() => navigation.navigate(ROUTES.CHANGE_ACTIVITY)}/>
       </View>
       
       <View style={styles.footer}>
-        <CustomButton text='Log out' onPress={handlLogout} type='BLUE_PRIMARY'/>
+        <CustomButton text='Выйти' onPress={handlLogout} type='BLUE_PRIMARY'/>
       </View>
 
     </ScrollView>
@@ -162,7 +197,7 @@ export default Account = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#B0D3A1',
+    backgroundColor: '#E5E5E5',
   },
   container: {
     alignItems: 'center',

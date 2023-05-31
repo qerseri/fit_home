@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { firebase } from "../../../config/firebase";
 import { useNavigation } from "@react-navigation/core";
 import { ROUTES } from "../../../components";
-import useAuth from '../../../hooks/useAuth';
+import useAuth from '../../../config/useAuth';
 
 import { firestore } from "../../../config/firebase";
 import { doc, updateDoc, getDoc, onSnapshot} from "firebase/firestore";
@@ -131,7 +131,7 @@ export default ListCoaches = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#B0D3A1',
+    backgroundColor: '#E5E5E5',
     paddingBottom: 60
   },
   container: {

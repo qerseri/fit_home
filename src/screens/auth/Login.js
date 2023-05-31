@@ -29,7 +29,7 @@ export default Login = () => {
         setLoginError('')
     }, [email, password, navigation.navigate])
 
-    const handleSubmit = async() => {
+    const loginSubmit = async() => {
         try {
             setLoading(true)
             await signInWithEmailAndPassword(auth, email, password)
@@ -67,12 +67,12 @@ export default Login = () => {
                 />
 
                 <CustomInput 
-                    placeholder='Email' 
+                    placeholder='Почта' 
                     value={email} 
                     setValue={text => setEmail(text)}
                 />
                 <CustomInput 
-                    placeholder='Password' 
+                    placeholder='Пароль' 
                     value={password} 
                     setValue={text => setPassword(text)}
                     secureTextEntry={true}
@@ -81,15 +81,15 @@ export default Login = () => {
                 <Text style={(loginError) ? styles.errorText : {display: 'none'}}>{loginError}</Text>
 
                 <CustomButton 
-                    text={loading ? <ActivityIndicator size="small" color="white" /> : 'Sign In'}
-                    onPress={handleSubmit}
+                    text={loading ? <ActivityIndicator size="small" color="white" /> : 'Войти'}
+                    onPress={loginSubmit}
                 />
 
-                <CustomButton text='Forgot Password' onPress={() => navigation.navigate(ROUTES.FORGOT_PASSWORD)} type='SECONDARY'/>
+                <CustomButton text='Не могу вспомнить пароль' onPress={() => navigation.navigate(ROUTES.FORGOT_PASSWORD)} type='SECONDARY'/>
 
                 <View style={styles.footer}>
-                    <Text style={{color: 'gray', fontWeight: 'bold'}}> Don't have an account? </Text>
-                    <CustomButton text='Sign Up' onPress={() => navigation.navigate(ROUTES.USER_PARAMETERS)} type='TERTIARY'/>
+                    <Text style={{color: 'gray', fontWeight: 'bold'}}> У вас нет аккаунта? </Text>
+                    <CustomButton text='Создайте' onPress={() => navigation.navigate(ROUTES.USER_PARAMETERS)} type='TERTIARY'/>
                 </View>
                 
             </View>

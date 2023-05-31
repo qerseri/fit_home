@@ -28,16 +28,14 @@ export const storage = getStorage(app);
 
 export const createUserDocument = async (user, additionalData) => {
   if (!user) return
-
+  
   // Получение ссылки на документ пользователя
   const userRef = doc(firestore, `users/${user.uid}`);
-
   // Проверка наличия документа пользователя в Firestore
   const snapshot = await getDoc(userRef);
 
   if(snapshot.exists) {
     const {email} = user;
-    /* const {username} = additionalData; */
     const {firstname} = additionalData;
     const {lastname} = additionalData;
     const {gender} = additionalData;
@@ -51,6 +49,7 @@ export const createUserDocument = async (user, additionalData) => {
     const isCoach = false;
     const coachQuery = null;
     const coach = null;
+
     try{
       // Создание документа пользователя
       await setDoc(
@@ -60,7 +59,6 @@ export const createUserDocument = async (user, additionalData) => {
           activity, goal, activityRatio, goalRatio, isCoach, coachQuery, coach
         }
       )
-      console.log('succes adding datas')
     } catch(err) {
       console.log('got error: ', err.message)
     }

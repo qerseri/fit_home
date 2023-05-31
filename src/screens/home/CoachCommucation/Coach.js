@@ -1,10 +1,10 @@
-import { View, Text, FlatList, Pressable, StyleSheet, Image, ActivityIndicator } from "react-native";
+import { View, Text, FlatList, Pressable, StyleSheet, Image, ActivityIndicator, ScrollView } from "react-native";
 import React, { useState, useEffect } from "react";
 
 import { useNavigation } from "@react-navigation/core";
 import { doc, updateDoc, getDoc, arrayUnion, arrayRemove, onSnapshot} from "firebase/firestore";
 import { firestore } from "../../../config/firebase";
-import useAuth from '../../../hooks/useAuth';
+import useAuth from '../../../config/useAuth';
 
 import logo from "../../../../assets/images/logo.png";
 
@@ -88,7 +88,7 @@ export default Coach = ({route}) => {
   }
 
   return (
-    <View style={styles.root}>
+    <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
       
       <View style={styles.container}>
         <Image 
@@ -152,14 +152,14 @@ export default Coach = ({route}) => {
       )}
       
 
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#B0D3A1',
+    backgroundColor: '#E5E5E5',
   },
   container: {
     alignItems: 'center',
@@ -185,4 +185,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
   },
+  text: {
+    fontSize: 16
+  }
 });

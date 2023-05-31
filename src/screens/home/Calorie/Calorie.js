@@ -3,13 +3,13 @@ import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, Modal, Touchab
 
 import { AntDesign, MaterialCommunityIcons , MaterialIcons, Ionicons} from '@expo/vector-icons';
 import {Picker} from '@react-native-picker/picker';
-import { collection, addDoc, updateDoc, doc} from 'firebase/firestore';
+import { collection, addDoc, updateDoc, doc, onSnapshot} from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
 import { firestore } from '../../../config/firebase';
 import calculateCalorie from '../../../config/calculateCalorie';
-import useAuth from '../../../hooks/useAuth';
+import useAuth from '../../../config/useAuth';
 import {ROUTES, CustomInput, CustomButton} from '../../../components';
 
 export default Calorie = () => {
@@ -34,8 +34,6 @@ export default Calorie = () => {
       calculateCalorie(user, setDayCalorie);
     }
 
-    /* const today = new Date().toISOString().split('T')[0]; */
-    console.log('today: ', today)
     if (currentDate !== today) {
       setEatenCalorie(0);
       setLeftCalorie(dayCalorie);
@@ -141,12 +139,12 @@ export default Calorie = () => {
       </View>
 
       <View style={styles.button_container}>
-        <TouchableOpacity onPress={() => navigation.navigate(ROUTES.WATER_BALANCE)}>
+        {/* <TouchableOpacity onPress={() => navigation.navigate(ROUTES.WATER_BALANCE)}>
           <Ionicons name="water" size={60} color="#009DD6" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity onPress={() => setModalWindow(true)}>
-          <AntDesign name="pluscircleo" size={60} color="#00CC99"/>
+          <AntDesign name="pluscircleo" size={60} color="#6AA84F"/>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate(ROUTES.CALORIE_HISTORY)}>
@@ -158,13 +156,13 @@ export default Calorie = () => {
 
       <Modal visible={modalWindow} animationType='fade' transparent={true} >
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <View style={{width: 300, height: 300, backgroundColor:'#58754B', borderRadius: 10, borderWidth: 2, borderColor: '#3D5134'}}>
+          <View style={{width: 300, height: 300, backgroundColor:'#7F9974', borderRadius: 10, borderWidth: 2, borderColor: '#3D5134'}}>
 
             <View style={{flexDirection:'row-reverse', marginTop: 5, marginLeft: 5}}>
               <AntDesign name='close' style={{color: '#E52B50', fontSize: 40}} onPress={() => setModalWindow(false)}/>
             </View>
 
-            <Text style={styles.title}>Adding</Text>
+            <Text style={{fontSize: 23, fontWeight: 'bold', textAlign: 'center', color: 'white'}}>Добавление</Text>
     
             <View style={styles.picker}>
               <Picker
@@ -212,7 +210,7 @@ export default Calorie = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#B0D3A1',
+    backgroundColor: '#E5E5E5',
     alignItems: 'center'
   },
   calorie_container: {
@@ -224,7 +222,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: '5%',
 
-    backgroundColor: '#8CA880',
+    backgroundColor: '#B0D3A1',
     alignItems: 'center',
   },
   calorieInfo_container: {
@@ -237,7 +235,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: '5%',
 
-    backgroundColor: '#8CA880',
+    backgroundColor: '#B0D3A1',
     alignItems: 'center',
   },
   info_container: {
@@ -277,7 +275,7 @@ const styles = StyleSheet.create({
     marginTop: '6%', 
     flexDirection: 'row', 
     gap: 40, 
-    backgroundColor: '#68825D', 
+    backgroundColor: '#B9B9B9', 
     padding: 5,
     borderRadius: 10
   },

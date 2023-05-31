@@ -6,7 +6,7 @@ import { firebase } from "../../../config/firebase";
 import { useNavigation } from "@react-navigation/core";
 
 import { firestore } from '../../../config/firebase';
-import useAuth from '../../../hooks/useAuth';
+import useAuth from '../../../config/useAuth';
 
 export default CalorieHistory = () => {
 
@@ -65,10 +65,10 @@ export default CalorieHistory = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#B0D3A1',
+    backgroundColor: '#E5E5E5',
   },
   meal_container: {
-    backgroundColor: "#D9EAD3",
+    backgroundColor: "#B0D3A1",
     padding: 10,
     marginVertical: 8,
     marginHorizontal: 16,

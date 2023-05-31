@@ -5,13 +5,11 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../../config/firebase';
 import {ROUTES, CustomInput, CustomButton,} from '../../components'
 import { useNavigation } from '@react-navigation/native';
-import toast from '../../components/toast'
 
 export default ForgotPassword = () => {
   const navigation = useNavigation();
   const [errorText, setErrorText] = useState('');
   const [loading, setLoading] = useState(false);
-  /* const toastRef = useRef(null); */
 
   const [email, setEmail] = useState('');
 
@@ -24,8 +22,7 @@ export default ForgotPassword = () => {
       } catch(err) {
         switch(err.code) {
           case 'auth/missing-email':
-            /* showToast('Email is empty') */
-            toast.success("dsadasdasdas")
+            setErrorText('Email is empty');
             break
           case 'auth/invalid-email':
             setErrorText('Email is incorrect');
@@ -56,7 +53,7 @@ export default ForgotPassword = () => {
         <Text style={styles.errorText}>{errorText}</Text>
 
         <CustomButton 
-          text={loading ? <ActivityIndicator size="small" color="white" /> : 'Send a recovery link'} 
+          text={loading ? <ActivityIndicator size="small" color="white" /> : 'Отправить'} 
           onPress={resetPassword}
         />
 

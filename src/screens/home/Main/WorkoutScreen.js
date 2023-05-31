@@ -68,7 +68,7 @@ import {
         
 
         <View style={styles.container}>
-          <CustomButton text='START' onPress={handleSubmit}/>
+          <CustomButton text='Начать' onPress={handleSubmit}/>
         </View>
       </>
     );

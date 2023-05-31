@@ -73,26 +73,26 @@ import {
         
         <View>
           {index + 1 >= excersise.length ? (
-            <CustomButton text='DONE' onPress={() => navigation.navigate(ROUTES.MAIN)}/>
+            <CustomButton text='Выполнил' onPress={() => navigation.navigate(ROUTES.MAIN)}/>
           ) : (
-            <CustomButton text='DONE' onPress={pressedDone}/>
+            <CustomButton text='Выполнил' onPress={pressedDone}/>
           )}
         </View>
 
         <View style={styles.container}>
           <View>
             {index == 0 ? (
-              <CustomButton text='PREV' onPress={() => {}} type='BLUE_PRIMARY'/>
+              <CustomButton text='Предыдущий' onPress={() => {}} type='BLUE_PRIMARY'/>
             ) : (
-              <CustomButton text='PREV' onPress={pressedPrev} type='BLUE_PRIMARY'/>
+              <CustomButton text='Предыдущий' onPress={pressedPrev} type='BLUE_PRIMARY'/>
             )}
           </View>
           
           <View>
             {index + 1 >= excersise.length ? (
-              <CustomButton text='SKIP' onPress={() => navigation.navigate(ROUTES.MAIN)} type='BLUE_PRIMARY'/>
+              <CustomButton text='Пропустить' onPress={() => navigation.navigate(ROUTES.MAIN)} type='BLUE_PRIMARY'/>
             ) : (
-              <CustomButton text='SKIP' onPress={pressedSkip} type='BLUE_PRIMARY'/>
+              <CustomButton text='Пропустить' onPress={pressedSkip} type='BLUE_PRIMARY'/>
             )}
           </View>
         </View>

@@ -6,7 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 import {ROUTES, CustomInput, CustomButton} from '../../../components';
-import useAuth from '../../../hooks/useAuth';
+import useAuth from '../../../config/useAuth';
 import { firestore } from '../../../config/firebase';
 import { getDoc, doc, updateDoc } from 'firebase/firestore';
 
@@ -120,7 +120,7 @@ export default ChangeActivity = () => {
           </View>
 
             <CustomButton
-              text={loading ? <ActivityIndicator size="small" color="white" /> : 'Update'}
+              text={loading ? <ActivityIndicator size="small" color="white" /> : 'Обновить'}
               onPress={handleSubmit}
             />
             
