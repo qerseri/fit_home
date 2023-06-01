@@ -24,6 +24,7 @@ export {default as WaterBalance} from './home/Calorie/WaterBalance';
 export {default as Coach} from './home/CoachCommucation/Coach';
 export {default as QueryForCoach} from './home/CoachCommucation/QueryForCoach';
 export {default as CoachInteraction} from './home/CoachCommucation/CoachInteraction';
+export {default as Chat} from './home/CoachCommucation/Chat';
 
 //account screens
 export {default as ChangeInfo} from './home/Account/ChangeInfo';

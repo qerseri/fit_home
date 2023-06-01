@@ -92,7 +92,7 @@ export default UserParameters = () => {
                 />
                 <Text style={(weightError) ? styles.errorText : {display: 'none'}}>{weightError}</Text>
 
-                <CustomButton text='Next' onPress={handleSubmit}/>
+                <CustomButton text='Далее' onPress={handleSubmit}/>
             </View>
         </SafeAreaView>
     )

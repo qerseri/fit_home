@@ -20,6 +20,7 @@ export default {
     COACH: 'Тренер',
     QUERY_FOR_COACH: 'Активные запросы',
     COACH_INTERACTION: 'Ваш тренер',
+    CHAT: 'Чат с тренером',
 
     CALORIE_HISTORY: 'История',
     WATER_BALANCE: 'Водный баланс',

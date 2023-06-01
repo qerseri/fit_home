@@ -38,13 +38,6 @@ export default Account = () => {
   const [activity, setActivity] = useState('');
   const [goal, setGoal] = useState('');
   
- 
-  /* useEffect(() => {
-    if (user) {
-      setImage(user.avatar);
-    }
-  }, [user]); */
- 
   useEffect(() => {
     if (user) {
       try {
@@ -171,12 +164,35 @@ export default Account = () => {
       </View>
     
       <View style={styles.info_container}>
-          <Text style={styles.text}>Возраст: {age}</Text>
-          <Text style={styles.text}>Рост: {height} см</Text>
-          <Text style={styles.text}>Вес: {weight} кг</Text>
-          <Text style={styles.text}>Пол: {gender}</Text>
-          <Text style={styles.text}>Активность: {activity}</Text>
-          <Text style={styles.text}>Цель: {goal}</Text>
+        <View style={{flexDirection: 'row', gap: 5}}>
+          <Text style={styles.text}>Возраст: </Text>
+          <Text style={styles.text_info}>{age}</Text>
+        </View>
+
+        <View style={{flexDirection: 'row', gap: 5}}>
+          <Text style={styles.text}>Рост: </Text>
+          <Text style={styles.text_info}>{height} см</Text>
+        </View>
+
+        <View style={{flexDirection: 'row', gap: 5}}>
+          <Text style={styles.text}>Вес: </Text>
+          <Text style={styles.text_info}>{weight} кг</Text>
+        </View>
+
+        <View style={{flexDirection: 'row', gap: 5}}>
+          <Text style={styles.text}>Пол: </Text>
+          <Text style={styles.text_info}>{gender}</Text>
+        </View>
+
+        <View style={{flexDirection: 'row', gap: 5}}>
+          <Text style={styles.text}>Активность: </Text>
+          <Text style={styles.text_info}>{activity}</Text>
+        </View>
+
+        <View style={{flexDirection: 'row', gap: 5}}>
+          <Text style={styles.text}>Цель: </Text>
+          <Text style={styles.text_info}>{goal}</Text>
+        </View>
       </View>
 
       <View style={styles.container}>
@@ -204,7 +220,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   info_container: {
-    backgroundColor: '#8CA880',
+    backgroundColor: '#A3B999',
     margin: 5,
     padding: 10,
     borderRadius: 5,
@@ -221,7 +237,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   text: {
-
+    fontSize: 16
+  },
+  text_info: {
+    fontSize: 17,
+    fontWeight: 'bold',
   },
   footer: {
     padding: 5,
@@ -236,6 +256,6 @@ const styles = StyleSheet.create({
   },
   loadingScreen: {
     flex: 1,
-    backgroundColor: '#93C47D'
+    backgroundColor: '#E5E5E5'
   },
 });

@@ -12,8 +12,8 @@ import { MaterialCommunityIcons, Foundation } from '@expo/vector-icons';
 
 
 const options = [
-    { label: 'Male', value: 'Male' },
-    { label: 'Female', value: 'Female' },
+    { label: 'Мужчина', value: 'Male' },
+    { label: 'Женщина', value: 'Female' },
 ];
 
 export default ChangeInfo = () => {
@@ -90,60 +90,87 @@ export default ChangeInfo = () => {
 
     return (
         <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
-            <View style={styles.container}>
-                <CustomInput 
-                    placeholder='First Name' 
-                    value={firstname} 
-                    setValue={text => setFirstName(text)}
-                />
-                <CustomInput 
-                    placeholder='Last Name' 
-                    value={lastname} 
-                    setValue={text => setLastName(text)}
-                />
-                <CustomInput 
-                    placeholder='Age' 
-                    value={age} 
-                    setValue={text => setAge(text)}
-                    keyboardtype = 'numeric'
-                />
-                <CustomInput 
-                    placeholder='Height' 
-                    value={height} 
-                    setValue={text => setHeight(text)}
-                    keyboardtype = 'numeric'
-                />
-                <CustomInput 
-                    placeholder='Weight' 
-                    value={weight} 
-                    setValue={text => setWeight(text)}
-                    keyboardtype = 'numeric'
-                />
+            
+            <View style={{padding: 20}}>
+
+                <View style={{gap: -8}}>
+                    <Text style={styles.input_label}>Имя</Text>
+                    <CustomInput 
+                        placeholder='Имя' 
+                        value={firstname} 
+                        setValue={text => setFirstName(text)}
+                    />
+                </View>
                 
-                <View style={styles.gender_icons}>
-                    <Foundation name="male-symbol" size={45} color="#3FCBFF"/>
-                    <Foundation name="female-symbol" size={45} color="#F85376"/>
+                <View style={{gap: -8}}>
+                    <Text style={styles.input_label}>Фамилия</Text>
+                    <CustomInput 
+                        placeholder='Фамилия' 
+                        value={lastname} 
+                        setValue={text => setLastName(text)}
+                    />
+                </View>
+                
+                <View style={{gap: -8}}>
+                    <Text style={styles.input_label}>Возраст</Text>
+                    <CustomInput 
+                        placeholder='Возраст' 
+                        value={age} 
+                        setValue={text => setAge(text)}
+                        keyboardtype = 'numeric'
+                    />
+                </View>
+                
+                <View style={{gap: -8}}>
+                    <Text style={styles.input_label}>Рост</Text>
+                    <CustomInput 
+                        placeholder='Рост' 
+                        value={height} 
+                        setValue={text => setHeight(text)}
+                        keyboardtype = 'numeric'
+                    />
+                </View>
+                
+                <View style={{gap: -8}}>
+                    <Text style={styles.input_label}>Вес</Text>
+                    <CustomInput 
+                        placeholder='Вес' 
+                        value={weight} 
+                        setValue={text => setWeight(text)}
+                        keyboardtype = 'numeric'
+                    />
                 </View>
 
-                <View style={styles.checkbox_container}>
-                    {options.map((option) => (
-                        <CheckBox
-                            key={option.value}
-                            title={option.label}
-                            checked={gender === option.value}
-                            onPress={() => setGender(option.value)}
-                            containerStyle={{backgroundColor: '#FDF7F3', borderRadius: 10,}}
-                            checkedIcon={<MaterialCommunityIcons name="check-circle" size={24} color="#58754B" />}
-                            uncheckedIcon={<MaterialCommunityIcons name="checkbox-blank-circle-outline" size={24} color="#58754B" />}
-                        />
-                    ))}
+                <View style={{alignItems: 'center', gap: -10}}>
+
+                    <View style={styles.gender_icons}>
+                        <Foundation name="male-symbol" size={40} color="#3FCBFF"/>
+                        <Foundation name="female-symbol" size={40} color="#F85376"/>
+                    </View>
+
+                    <View style={styles.checkbox_container}>
+                        {options.map((option) => (
+                            <CheckBox
+                                key={option.value}
+                                title={option.label}
+                                checked={gender === option.value}
+                                onPress={() => setGender(option.value)}
+                                containerStyle={{backgroundColor: '#FDF7F3', borderRadius: 10,}}
+                                checkedIcon={<MaterialCommunityIcons name="check-circle" size={24} color="#58754B" />}
+                                uncheckedIcon={<MaterialCommunityIcons name="checkbox-blank-circle-outline" size={24} color="#58754B" />}
+                            />
+                        ))}
+                    </View>
+
                 </View>
+                
 
                 <CustomButton 
                     text={loading ? <ActivityIndicator size="small" color="white" /> : 'Обновить'}
                     onPress={handleSubmit}
                 />
             </View>
+
         </ScrollView>
     )
 }
@@ -151,7 +178,7 @@ export default ChangeInfo = () => {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: '#93C47D',
+        backgroundColor: '#FDF7F3',
     },
     container: {
         alignItems: 'center',
@@ -159,13 +186,18 @@ const styles = StyleSheet.create({
     },
     loadingScreen: {
         flex: 1,
-        backgroundColor: '#93C47D'
+        backgroundColor: '#E5E5E5'
     },
     checkbox_container: {
         flexDirection: 'row',
     },
     gender_icons: {
         flexDirection: 'row',
-        gap: 100,
+        gap: 120,
     },
+    input_label: {
+        fontSize: 13,
+        marginLeft: '5%',
+        color: 'gray'
+    }
 });

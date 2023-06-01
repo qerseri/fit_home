@@ -15,13 +15,12 @@ export default ListCoaches = () => {
   const { user } = useAuth();
   const [coaches, setCoaches] = useState([]);
   const [isCoachActive, setIsCoachActive] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   const db = firebase.firestore();
   const navigation = useNavigation();
   const [pressedIndex, setPressedIndex] = useState(null);
   
-  useEffect(() => {
+  /* useEffect(() => {
     if (user) {
       const unsubscribe = onSnapshot(doc(firestore, `users/${user.uid}`), (doc) => {
         const userData = doc.data();
@@ -43,7 +42,7 @@ export default ListCoaches = () => {
       navigation.navigate(ROUTES.LIST_COACHES);
     }
     setIsLoading(false)
-  }, [isCoachActive]);
+  }, [isCoachActive]); */
 
   useEffect(() => {
     const unsubscribe = db.collection("instructors").onSnapshot((snapshot) => {
@@ -95,17 +94,11 @@ export default ListCoaches = () => {
   };
 
   
-  if (isLoading) {
+  if (!user) {
     return (
       <ActivityIndicator size="large" color="#58754B" style={styles.loadingScreen}/>
     );
-  }
-
-  /* if (!user) {
-    return (
-      <ActivityIndicator size="large" color="#58754B" style={styles.loadingScreen}/>
-    );
-  }  */
+  } 
 
   return ( 
     <View style={styles.root}>
@@ -163,33 +156,6 @@ const styles = StyleSheet.create({
   },
   loadingScreen: {
     flex: 1,
-    backgroundColor: '#93C47D'
+    backgroundColor: '#E5E5E5'
   },
 });
-
-
-
-
-/* {isCoachActive ? (
-  <View>
-    <Text>Ваш запрос принят</Text>
-    <CustomButton text='Перейти' type='BLUE_PRIMARY' onPress={() => navigation.navigate(ROUTES.COACH_INTERACTION,)}/>
-  </View>
-) : (
-  <View style={styles.root}>
-
-    <View style={styles.container}>
-      <CustomButton text='Запросы' type='BLUE_PRIMARY' onPress={() => navigation.navigate(ROUTES.QUERY_FOR_COACH, {coachId: user.coachQuery})}/>
-    </View>
-
-    <View style={{}}>
-      <FlatList
-        data={coaches}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
-
-  </View>
- )} */

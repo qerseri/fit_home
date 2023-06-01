@@ -139,10 +139,7 @@ export default Calorie = () => {
       </View>
 
       <View style={styles.button_container}>
-        {/* <TouchableOpacity onPress={() => navigation.navigate(ROUTES.WATER_BALANCE)}>
-          <Ionicons name="water" size={60} color="#009DD6" />
-        </TouchableOpacity> */}
-
+        
         <TouchableOpacity onPress={() => setModalWindow(true)}>
           <AntDesign name="pluscircleo" size={60} color="#6AA84F"/>
         </TouchableOpacity>
@@ -281,7 +278,7 @@ const styles = StyleSheet.create({
   },
   loadingScreen: {
     flex: 1,
-    backgroundColor: '#93C47D'
+    backgroundColor: '#E5E5E5'
   },
 });
 

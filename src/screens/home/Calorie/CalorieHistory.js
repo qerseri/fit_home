@@ -84,6 +84,6 @@ const styles = StyleSheet.create({
   },
   loadingScreen: {
     flex: 1,
-    backgroundColor: '#B0D3A1'
+    backgroundColor: '#E5E5E5'
   },
 });

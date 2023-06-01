@@ -52,8 +52,6 @@ export default Login = () => {
                     break;
             }
             console.log('got error: ', err.message)
-        } finally {
-            setLoading(false)
         }
     }
 
@@ -88,7 +86,7 @@ export default Login = () => {
                 <CustomButton text='Не могу вспомнить пароль' onPress={() => navigation.navigate(ROUTES.FORGOT_PASSWORD)} type='SECONDARY'/>
 
                 <View style={styles.footer}>
-                    <Text style={{color: 'gray', fontWeight: 'bold'}}> У вас нет аккаунта? </Text>
+                    <Text style={{color: 'gray', fontWeight: 'bold', marginTop: '1%'}}> У вас нет аккаунта? </Text>
                     <CustomButton text='Создайте' onPress={() => navigation.navigate(ROUTES.USER_PARAMETERS)} type='TERTIARY'/>
                 </View>
                 

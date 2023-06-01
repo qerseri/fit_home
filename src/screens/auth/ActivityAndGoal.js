@@ -84,7 +84,7 @@ export default ActivityAndGoal = ({route}) => {
                     ))}
                 </View>
 
-                <CustomButton text='Next' onPress={handleSubmit}/>
+                <CustomButton text='Далее' onPress={handleSubmit}/>
                 
             </View>
         </SafeAreaView>
@@ -98,11 +98,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#FDF7F3',
     },
     container: {
-        alignItems: 'center',
         padding: 20,
         gap: 20
     },
     text: {
-        textAlign: 'center'
+        textAlign: 'center',
+        fontSize: 15,
+        color: '#0F8D47'
     }
 });

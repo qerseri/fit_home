@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     },
     text_SECONDARY: {
         fontWeight: 'bold',
+        fontSize: 16,
         color: 'gray'
     },
 
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
     },
     text_TERTIARY: {
         fontWeight: 'bold',
+        fontSize: 17,
         color: '#006DB0'
     },
 
