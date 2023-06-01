@@ -1,11 +1,14 @@
-import { View, Text, StyleSheet, Pressable, Image, ActivityIndicator} from "react-native";
+import { View, Text, StyleSheet, Image, ActivityIndicator, TouchableOpacity, ScrollView} from "react-native";
 import React, { useState, useEffect } from "react";
 
-import { doc, updateDoc, getDoc, arrayUnion, arrayRemove, onSnapshot} from "firebase/firestore";
+import { Entypo } from '@expo/vector-icons';
+import { doc, updateDoc, getDoc, arrayUnion, arrayRemove, onSnapshot, deleteDoc, collection, getDocs, deleteField} from "firebase/firestore";
 import { firestore } from "../../../config/firebase";
 import { firebase } from "../../../config/firebase";
+import { useNavigation } from "@react-navigation/core";
 
 import useAuth from '../../../config/useAuth';
+import { ROUTES } from "../../../components";
 
 export default CoachInteraction = () => {
 
@@ -14,6 +17,7 @@ export default CoachInteraction = () => {
   const [coachId, setCoachId] = useState(null);
 
   const db = firebase.firestore();
+  const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -44,14 +48,31 @@ export default CoachInteraction = () => {
   const handleCancel = async() => {
       try {
         setLoading(true)
+
         const coachRef = doc(firestore, `instructors/${coachId}`);
         const userRef = doc(firestore, `users/${user.uid}`);
+        
+        // Получение ссылки на подколлекцию messages
+        const messagesCollectionRef = collection(firestore, `chats/${user.chat}/messages`);
+        // Получение всех документов в подколлекции
+        const snapshot = await getDocs(messagesCollectionRef);
+        // Удаление каждого документа в подколлекции
+        snapshot.docs.forEach(async (doc) => {
+          await deleteDoc(doc.ref);
+        });
+        // Удаление подколлекции messages
+        await deleteField(doc(firestore, 'chats', user.chat), 'messages');
+        await deleteDoc(doc(firestore, 'chats', user.chat));
+
         await updateDoc(coachRef, {
           clients: arrayRemove(user.uid),
+          chat: arrayRemove(user.chat),
         });
         await updateDoc(userRef, {
           coach: null,
+          chat: null
         });
+
         alert('Вы были отвязаны от тренера')
       } catch (err) {
         console.log('error for sign up with coach: ', err.message)
@@ -60,33 +81,81 @@ export default CoachInteraction = () => {
     } 
   }
   
-  if (!user) {
+  if (!coach) {
     return (
       <ActivityIndicator size="large" color="#58754B" style={styles.loadingScreen}/>
     );
-  } 
+  }
 
   return (
-    <View style={styles.root}>
+    <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
+
       <View style={styles.container}>
+        <TouchableOpacity onPress={() => navigation.navigate(ROUTES.COACH, { coach: coach, coachId: coachId})}>
+          <Image 
+            style={styles.image} 
+            source={coach.avatar ? { uri: coach.avatar } : logo}
+          />
+        </TouchableOpacity>
+        
+        <Text style={styles.main_text}>{coach.firstName} {coach.lastName}</Text>
+        <Text style={styles.main_text}>{coach.email}</Text>
+        
+      </View>
+
+      <View style={{alignItems: 'center'}}>
+        <View style={styles.chat_container}>
+          <TouchableOpacity onPress={() => navigation.navigate(ROUTES.CHAT)}>
+            <Entypo name="chat" size={45} color="black" />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View style={styles.info_container}>
+        <Text style={styles.text}>Индивидуальный план:</Text>
+      </View>
+
+      
+      
+
+      <View style={{padding: 30}}>
         <CustomButton 
           text={loading ? <ActivityIndicator size="small" color="white" /> : 'Отвязаться от тренера'} 
           onPress={handleCancel}
           type='CANCEL_PRIMARY'
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#B0D3A1',
+    backgroundColor: '#E5E5E5',
   },
   container: {
     alignItems: 'center',
     padding: 5,
+  },
+  info_container: {
+    backgroundColor: '#8CA880',
+    margin: 5,
+    padding: 10,
+    borderRadius: 5,
+    gap: 3,
+    height: 200,
+  },
+  chat_container: {
+    width: 60,
+    height: 60,
+    borderRadius: 60/2,
+    borderColor: '#B9B9B9',
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#B9B9B9',
+    margin: '3%'
   },
   item: {
     backgroundColor: "#58754B",
@@ -95,11 +164,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     borderRadius: 5,
   },
-  title: {
-    fontSize: 25,
+  main_text: {
+    color: '#627559',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
-  subtitle: {
-    fontSize: 15,
+  text: {
+    fontSize: 16,
+    textAlign: 'center'
   },
   image: {
     width: 100,
@@ -110,6 +182,6 @@ const styles = StyleSheet.create({
   },
   loadingScreen: {
     flex: 1,
-    backgroundColor: '#93C47D'
+    backgroundColor: '#E5E5E5'
   },
 });

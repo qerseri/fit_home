@@ -1,9 +1,9 @@
 import { View, Text, FlatList, Pressable, StyleSheet, Image, ActivityIndicator, ScrollView } from "react-native";
 import React, { useState, useEffect } from "react";
 
-import { useNavigation } from "@react-navigation/core";
 import { doc, updateDoc, getDoc, arrayUnion, arrayRemove, onSnapshot} from "firebase/firestore";
 import { firestore } from "../../../config/firebase";
+
 import useAuth from '../../../config/useAuth';
 
 import logo from "../../../../assets/images/logo.png";
