@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator} from 'react-na
 
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../../config/firebase';
-import {ROUTES, CustomInput, CustomButton,} from '../../components'
+import {ROUTES, CustomInput, CustomButton} from '../../components'
 import { useNavigation } from '@react-navigation/native';
 
 export default ForgotPassword = () => {
@@ -14,32 +14,34 @@ export default ForgotPassword = () => {
   const [email, setEmail] = useState('');
 
   const resetPassword = async() => {
-      try {
-        setLoading(true)
-        await sendPasswordResetEmail(auth, email)
-        navigation.navigate(ROUTES.LOGIN)
-        alert("On your email was sent recovery link");
-      } catch(err) {
-        switch(err.code) {
-          case 'auth/missing-email':
-            setErrorText('Email is empty');
-            break
-          case 'auth/invalid-email':
-            setErrorText('Email is incorrect');
-            break
-          case 'auth/user-not-found':
-            setErrorText('Email not exist');
-            break
-          default:
-            setErrorText('Something went wrong. Try again')
-            break
-        }
-      } finally {
-        setLoading(false)
+
+    try {
+      setLoading(true)
+      await sendPasswordResetEmail(auth, email)
+      navigation.navigate(ROUTES.LOGIN)
+      alert("On your email was sent recovery link");
+    } catch(err) {
+      switch(err.code) {
+        case 'auth/missing-email':
+          setErrorText('Email is empty');
+          break
+        case 'auth/invalid-email':
+          setErrorText('Email is incorrect');
+          break
+        case 'auth/user-not-found':
+          setErrorText('Email not exist');
+          break
+        default:
+          setErrorText('Something went wrong. Try again')
+          break
       }
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
+    
     <SafeAreaView style={styles.root}>
       <View style={styles.container}>
 

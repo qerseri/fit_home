@@ -71,7 +71,7 @@ export default ListCoaches = () => {
           styles.item,
           {
             backgroundColor:
-              pressed || pressedIndex === index ? "#68825D" : "#58754B",
+              pressed || pressedIndex === index ? "#949494" : "#B9B9B9",
           },
         ]}
         onPress={() => navigation.navigate(ROUTES.COACH, { coach: item, coachId: item.id})}
@@ -141,11 +141,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#FFFFFF'
+    color: '#133337'
   },
   subtitle: {
-    fontSize: 15,
-    color: '#CCCCCC'
+    fontSize: 18,
+    color: '#133337'
   },
   image: {
     width: 90,

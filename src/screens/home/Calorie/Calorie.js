@@ -1,9 +1,9 @@
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, Modal, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, Modal, TouchableOpacity, Alert} from 'react-native';
 
-import { AntDesign, MaterialCommunityIcons , MaterialIcons, Ionicons} from '@expo/vector-icons';
+import { AntDesign, MaterialCommunityIcons , MaterialIcons, Octicons} from '@expo/vector-icons';
 import {Picker} from '@react-native-picker/picker';
-import { collection, addDoc, updateDoc, doc, onSnapshot} from 'firebase/firestore';
+import { collection, addDoc, updateDoc, doc, onSnapshot, FieldValue} from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
@@ -18,6 +18,7 @@ export default Calorie = () => {
   const { user } = useAuth();
   const [modalWindow, setModalWindow] = useState(false);
   const [selectedValue, setSelectedValue] = useState('Завтрак');
+  const [loading, setLoading] = useState(false);
 
   const [dayCalorie, setDayCalorie] = useState(null);
   const [leftCalorie, setLeftCalorie] = useState(null);
@@ -64,11 +65,14 @@ export default Calorie = () => {
   }, []);
 
   const handleSubmit = async () => {
+
     if (!food || !calorie) {
       alert('заполните все поля')
       return;
     }
-  
+    
+    setLoading(true);
+
     try {
       const userRef = doc(firestore, 'users', user.uid);
 
@@ -78,9 +82,9 @@ export default Calorie = () => {
         food: food,
         calorie: calorie,
         mealType: mealType,
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString().split('T')[0],
       };
-  
+
       const mealsRef = collection(userRef, 'food', currentDate, 'meals');
       await addDoc(mealsRef, foodData);
 
@@ -98,7 +102,8 @@ export default Calorie = () => {
       await AsyncStorage.setItem('eatenCalorie', updatedEatenCalorie.toString());
       await AsyncStorage.setItem('currentDate', currentDate.toString());
 
-      alert('Добавлено')
+      setLoading(false);
+      Alert.alert('Прием пищи добавлен');
     } catch (error) {
       console.log('Error adding food:', error);
     }
@@ -144,7 +149,7 @@ export default Calorie = () => {
           <AntDesign name="pluscircleo" size={60} color="#6AA84F"/>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate(ROUTES.CALORIE_HISTORY)}>
+        <TouchableOpacity onPress={() => navigation.navigate(ROUTES.CALORIE_HISTORY, {userId: user.uid})}>
           <MaterialIcons name="history" size={60} color="black" />
         </TouchableOpacity>
       </View>
@@ -153,12 +158,14 @@ export default Calorie = () => {
 
       <Modal visible={modalWindow} animationType='fade' transparent={true} >
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <View style={{width: 300, height: 300, backgroundColor:'#7F9974', borderRadius: 10, borderWidth: 2, borderColor: '#3D5134'}}>
+          <View style={{width: 300, height: 360, backgroundColor:/* '#7F9974' */'#949494', borderRadius: 10, borderWidth: 2, borderColor: '#767676'}}>
 
             <View style={{flexDirection:'row-reverse', marginTop: 5, marginLeft: 5}}>
-              <AntDesign name='close' style={{color: '#E52B50', fontSize: 40}} onPress={() => setModalWindow(false)}/>
+              <TouchableOpacity onPress={() => setModalWindow(false)}>
+                <AntDesign name='close' style={{color: '#E52B50', fontSize: 40}}/>
+              </TouchableOpacity>
             </View>
-
+            
             <Text style={{fontSize: 23, fontWeight: 'bold', textAlign: 'center', color: 'white'}}>Добавление</Text>
     
             <View style={styles.picker}>
@@ -176,24 +183,39 @@ export default Calorie = () => {
             </View>
             
             <View style={{alignItems: 'center'}}>
-              <CustomInput 
-                placeholder='Название еды' 
-                value={food} 
-                setValue={text => setFood(text)}
-                type='SECONDARY'
-              />
-              <CustomInput 
-                placeholder='Кол-во калорий' 
-                value={calorie} 
-                setValue={text => setCalorie(text)}
-                type='SECONDARY'
-                keyboardtype = 'numeric'
-              />
+              <View style={{flexDirection: 'row', gap: 10}}>
+                <View style={{marginTop: '7%'}}>
+                  <MaterialCommunityIcons name="food-drumstick" size={30} color="#993D3D" />
+                </View>
+                
+                <CustomInput 
+                  placeholder='Название еды' 
+                  value={food} 
+                  setValue={text => setFood(text)}
+                  type='SECONDARY'
+                />
+              </View>
+              
+              <View style={{flexDirection: 'row', gap: 10}}>
+                <View style={{marginTop: '6%'}}>
+                  <Octicons name="number" size={30} color="#993D3D" />
+                </View>
+            
+                <CustomInput 
+                  placeholder='Кол-во калорий' 
+                  value={calorie} 
+                  setValue={text => setCalorie(text)}
+                  type='SECONDARY'
+                  keyboardtype = 'numeric'
+                />
+              </View>
+              
 
               <TouchableOpacity onPress={handleSubmit}>
-                
-                <AntDesign name="checkcircleo" size={40} color="black" style={{marginTop: 10}}/>
+                {loading ? <ActivityIndicator size="large" color="black" style={{marginTop: 10}}/> : 
+                <AntDesign name="checkcircleo" size={50} color="black" style={{marginTop: 10}}/>}
               </TouchableOpacity>
+              
             </View>
 
           </View>
@@ -266,7 +288,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     margin: '3%',
-    backgroundColor: '#79906E'
+    backgroundColor: /* '#79906E' */ '#B4B4B4'
   },
   button_container: {
     marginTop: '6%', 

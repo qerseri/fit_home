@@ -31,12 +31,22 @@ const styles = StyleSheet.create({
         fontSize: 16,
         padding: 10,
     },
+    container_SECONDARY: {
+        backgroundColor: 'white',
+        padding: 5,
+
+        borderColor: '#e8e8e8',
+        borderWidth: 1,
+        borderRadius: 5,
+
+        paddingHorizontal: 10,
+        marginVertical: 10,
+    },
     input_SECONDARY: {
-        fontSize: 15,
+        fontSize: 18,
         borderBottomWidth: 2,
         borderColor: 'black',
         textAlign: 'center',
         marginVertical: '2%',
-        width: '60%',
     },
 });

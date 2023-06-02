@@ -66,7 +66,7 @@ export default ChangeActivity = () => {
               });
           }
           navigation.navigate(ROUTES.ACCOUNT)
-          alert("Your information has been update");
+          Alert.alert('Ваша активность и цель изменены');
         } catch (err) {
             console.log('got error: ', err.message)
         } finally {

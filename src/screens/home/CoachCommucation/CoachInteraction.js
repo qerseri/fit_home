@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, ActivityIndicator, TouchableOpacity, ScrollView} from "react-native";
+import { View, Text, StyleSheet, Image, ActivityIndicator, TouchableOpacity, ScrollView, Alert} from "react-native";
 import React, { useState, useEffect } from "react";
 
 import { Entypo } from '@expo/vector-icons';
@@ -80,6 +80,27 @@ export default CoachInteraction = () => {
         setLoading(false)
     } 
   }
+
+  const showAlert = () => {
+    Alert.alert(
+      'Подтверждение',
+      'Вы уверены, что хотите отписаться от вашего тренера?',
+      [
+        {
+          text: 'Да',
+          onPress: () => {handleCancel()},
+        },
+        {
+          text: 'Нет',
+          style: 'cancel',
+          onPress: () => {
+            console.log('Нет');
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
   
   if (!coach) {
     return (
@@ -121,7 +142,7 @@ export default CoachInteraction = () => {
       <View style={{padding: 30}}>
         <CustomButton 
           text={loading ? <ActivityIndicator size="small" color="white" /> : 'Отвязаться от тренера'} 
-          onPress={handleCancel}
+          onPress={showAlert}
           type='CANCEL_PRIMARY'
         />
       </View>

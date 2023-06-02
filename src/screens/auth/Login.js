@@ -34,6 +34,7 @@ export default Login = () => {
             setLoading(true)
             await signInWithEmailAndPassword(auth, email, password)
         } catch(err) {
+            setLoading(false)
             switch(err.code) {
                 case 'auth/missing-email':
                     setLoginError('Email is empty');

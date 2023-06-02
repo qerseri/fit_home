@@ -23,5 +23,5 @@ export default {
     CHAT: 'Чат с тренером',
 
     CALORIE_HISTORY: 'История',
-    WATER_BALANCE: 'Водный баланс',
+    MEALS_HISTORY: 'Приемы пищи',
 }

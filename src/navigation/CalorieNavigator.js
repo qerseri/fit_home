@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {Calorie, CalorieHistory, WaterBalance} from '../screens'
+import {Calorie, CalorieHistory, MealsHistory} from '../screens'
 import { ROUTES } from '../components';
 
 const Stack = createStackNavigator();
@@ -21,7 +21,7 @@ export default CalorieNavigator = () => {
         >
             <Stack.Screen name={ROUTES.CALORIE} component={Calorie} />
             <Stack.Screen name={ROUTES.CALORIE_HISTORY} component={CalorieHistory} />
-            <Stack.Screen name={ROUTES.WATER_BALANCE} component={WaterBalance} />
+            <Stack.Screen name={ROUTES.MEALS_HISTORY} component={MealsHistory} />
         </Stack.Navigator>
     );
 }

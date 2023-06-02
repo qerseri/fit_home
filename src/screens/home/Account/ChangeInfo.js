@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, ScrollView, Alert} from 'react-native';
 
 import useAuth from '../../../config/useAuth';
 import { firestore } from '../../../config/firebase';
@@ -9,7 +9,6 @@ import {ROUTES, CustomInput, CustomButton,} from '../../../components';
 import { useNavigation } from '@react-navigation/native';
 import { CheckBox } from '@rneui/themed';
 import { MaterialCommunityIcons, Foundation } from '@expo/vector-icons';
-
 
 const options = [
     { label: 'Мужчина', value: 'Male' },
@@ -71,7 +70,7 @@ export default ChangeInfo = () => {
                     });
                 }
                 navigation.navigate(ROUTES.ACCOUNT)
-                alert("Your information has been update");
+                Alert.alert('Ваши данные успешно изменены');
             } catch (err) {
                 console.log('got error: ', err.message)
             } finally {

@@ -1,86 +1,105 @@
-import { View, Text, FlatList, Pressable, StyleSheet, ActivityIndicator } from "react-native";
-import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, Pressable, FlatList, ActivityIndicator} from "react-native";
+import React, { useEffect, useState } from "react";
 
-import { collection, getDoc, doc, query, where, getDocs } from "firebase/firestore";
-import { firebase } from "../../../config/firebase";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { firestore } from "../../../config/firebase";
 import { useNavigation } from "@react-navigation/core";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
+import { ROUTES } from "../../../components";
+import { AntDesign } from '@expo/vector-icons';
 
-import { firestore } from '../../../config/firebase';
-import useAuth from '../../../config/useAuth';
+export default function Calorie({ route }) {
+  const { userId } = route.params;
+  const navigation = useNavigation();
 
-export default CalorieHistory = () => {
+  const [documents, setDocuments] = useState([]);
+  const [pressedIndex, setPressedIndex] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
-  const { user } = useAuth();
-  const [meals, setMeals] = useState([]);
-  const today = new Date().toISOString().split('T')[0];
+  useEffect(() => {
+    const foodCollectionRef = collection(firestore, "users", userId, "food");
 
- useEffect (() => {
-  
-  const fetchMeals = async () => {
-    if (user) {
-      try {
-        const userRef = doc(firestore, "users", user.uid);
-        const foodRef = collection(userRef, "food");
-        const dateRef = doc(foodRef, today);
-        const mealsRef = collection(dateRef, "meals");
-        const querySnapshot = await getDocs(mealsRef);
-  
-        const mealsData = querySnapshot.docs.map((doc) => doc.data());
-        setMeals(mealsData);
-      } catch (error) {
-        console.log("Error fetching meals:", error);
-      }
-    }
+    const unsubscribe = onSnapshot(foodCollectionRef, (snapshot) => {
+      const updatedDocuments = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      const sortedDocuments = updatedDocuments.sort((a, b) => b.date.localeCompare(a.date));
+      setDocuments(sortedDocuments);
+
+    });
+    setLoaded(true)
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const renderItem = ({ item, index }) => {
+    return (
+      <Pressable
+        style={({ pressed }) => [
+          styles.item,
+          {
+            backgroundColor:
+              pressed || pressedIndex === index ? "#82947A" : "#A3B999",
+          },
+        ]}
+        onPress={() =>
+          navigation.navigate(ROUTES.MEALS_HISTORY, { userId, date: item.date })
+        }
+      >
+        
+      <Text style={styles.dateText}>
+        {format(new Date(item.date), "d MMMM, EEEE", { locale: ru })}
+      </Text>
+
+      </Pressable>
+    );
   };
 
-  fetchMeals();
- }, [user])
-
-  if (!user) {
-    return (
-      <ActivityIndicator size="large" color="#58754B" style={styles.loadingScreen}/>
-    );
-  } 
 
   return (
-    <View style={styles.container}>
+    <View style={styles.root}>
+      <View style={{alignItems: 'center', marginBottom: 10}}>
+        <AntDesign name="calendar" size={35} color="black" />
+      </View>
 
-      <FlatList
-        data={meals}
-        renderItem={({ item }) => (
-          <View style={styles.meal_container}>
-            <Text style={styles.food_text}>{item.food}</Text>
-            <Text style={styles.mealInfo_text}>Calorie: {item.calorie}</Text>
-            <Text style={styles.mealInfo_text}>Meal Type: {item.mealType}</Text>
-            <Text style={styles.mealInfo_text}>Timestamp: {item.timestamp}</Text>
-          </View>
+      <View style={styles.container}>
+        {!loaded ? <ActivityIndicator size="large" color="#58754B" style={styles.loadingScreen}/> : (
+          <FlatList
+            data={documents}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
+          />
         )}
-        showsVerticalScrollIndicator={false}
-        /* keyExtractor={(item) => item.uid} */
-      />
+      </View>
+      
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
     flex: 1,
     backgroundColor: '#E5E5E5',
+    padding: 15
   },
-  meal_container: {
-    backgroundColor: "#B0D3A1",
+  container: {
+    flex: 1,
+    backgroundColor: "#CECECE",
     padding: 10,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    borderRadius: 5
+  },
+  dateText: {
+    textAlign: "center",
+    fontSize: 20,
+  },
+  item: {
+    padding: 30,
+    marginVertical: 10,
     borderRadius: 5,
-  },
-  food_text: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  mealInfo_text: {
-    fontSize: 16,
-    marginVertical: 3,
   },
   loadingScreen: {
     flex: 1,

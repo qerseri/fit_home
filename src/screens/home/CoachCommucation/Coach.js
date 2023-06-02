@@ -101,7 +101,7 @@ export default Coach = ({route}) => {
       </View>
 
       <View style={styles.info_container}>
-        <Text style={styles.text}>Пол: {coach.gender}</Text>
+        <Text style={styles.text}>Пол: {coach.gender == 'Male' ? 'Мужчина' : 'Женщина'}</Text>
         <Text style={styles.text}>Возраст: {coach.age}</Text>
         <Text style={styles.text}>Описание: {coach.description}</Text>
       </View>
@@ -181,11 +181,12 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   main_text: {
-    color: '#627559',
+    color: '#133337',
     fontWeight: 'bold',
     fontSize: 18,
   },
   text: {
-    fontSize: 16
+    fontSize: 16,
+    color: 'white'
   }
 });

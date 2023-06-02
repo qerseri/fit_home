@@ -181,7 +181,7 @@ export default Account = () => {
 
         <View style={{flexDirection: 'row', gap: 5}}>
           <Text style={styles.text}>Пол: </Text>
-          <Text style={styles.text_info}>{gender}</Text>
+          <Text style={styles.text_info}>{gender == 'Male' ? 'Мужской' : 'Женский'}</Text>
         </View>
 
         <View style={{flexDirection: 'row', gap: 5}}>
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     gap: -20
   },
   main_text: {
-    color: '#627559',
+    color: '#133337',
     fontWeight: 'bold',
     fontSize: 18,
   },
@@ -242,6 +242,7 @@ const styles = StyleSheet.create({
   text_info: {
     fontSize: 17,
     fontWeight: 'bold',
+    color: '#133337'
   },
   footer: {
     padding: 5,

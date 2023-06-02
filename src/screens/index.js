@@ -18,7 +18,7 @@ export {default as WorkoutScreen} from './home/Main/WorkoutScreen';
 
 //calorie screens
 export {default as CalorieHistory} from './home/Calorie/CalorieHistory';
-export {default as WaterBalance} from './home/Calorie/WaterBalance';
+export {default as MealsHistory} from './home/Calorie/MealsHistory';
 
 //coach screens
 export {default as Coach} from './home/CoachCommucation/Coach';
