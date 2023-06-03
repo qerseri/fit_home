@@ -16,11 +16,11 @@ const FitnessCards = () => {
       {FitnessData.map((item, key) => (
 
         <Pressable
-        onPress={() => navigation.navigate(ROUTES.WORKOUT_SCREEN,{
-          image:item.image,
-          excersises:item.excersises,
-          id:item.id,
-        })}
+          onPress={() => navigation.navigate(ROUTES.WORKOUT_SCREEN,{
+            image:item.image,
+            excersises:item.excersises,
+            id:item.id,
+          })}
           style={{ alignItems: "center", justifyContent: "center", margin: 10 }}
           key={key}
         >

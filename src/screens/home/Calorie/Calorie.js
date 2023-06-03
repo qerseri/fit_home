@@ -1,9 +1,11 @@
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, Modal, TouchableOpacity, Alert} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, TouchableOpacity} from 'react-native';
 
+import Modal from 'react-native-modal';
+import AwesomeAlert from 'react-native-awesome-alerts';
 import { AntDesign, MaterialCommunityIcons , MaterialIcons, Octicons} from '@expo/vector-icons';
 import {Picker} from '@react-native-picker/picker';
-import { collection, addDoc, updateDoc, doc, onSnapshot, FieldValue} from 'firebase/firestore';
+import { collection, addDoc, updateDoc, doc, onSnapshot, getDoc, setDoc} from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
@@ -18,6 +20,7 @@ export default Calorie = () => {
   const { user } = useAuth();
   const [modalWindow, setModalWindow] = useState(false);
   const [selectedValue, setSelectedValue] = useState('Завтрак');
+  const [alertWindow, setAlertWindow] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const [dayCalorie, setDayCalorie] = useState(null);
@@ -82,10 +85,26 @@ export default Calorie = () => {
         food: food,
         calorie: calorie,
         mealType: mealType,
-        timestamp: new Date().toISOString().split('T')[0],
+        timestamp: new Date().toLocaleTimeString(),
       };
 
-      const mealsRef = collection(userRef, 'food', currentDate, 'meals');
+      const currentDateRef = doc(userRef, 'food', currentDate);
+
+      // Проверяем, существует ли документ currentDate
+      const currentDateSnap = await getDoc(currentDateRef);
+      if (currentDateSnap.exists()) {
+        // Если документ существует, обновляем поле date
+        await updateDoc(currentDateRef, {
+          date: currentDate,
+        });
+      } else {
+        // Если документ не существует, создаем его с полем date
+        await setDoc(currentDateRef, {
+          date: currentDate,
+        });
+      }
+  
+      const mealsRef = collection(currentDateRef, 'meals');
       await addDoc(mealsRef, foodData);
 
       // Обновление состояний leftCalorie и eatenCalorie
@@ -103,7 +122,7 @@ export default Calorie = () => {
       await AsyncStorage.setItem('currentDate', currentDate.toString());
 
       setLoading(false);
-      Alert.alert('Прием пищи добавлен');
+      setAlertWindow(true);
     } catch (error) {
       console.log('Error adding food:', error);
     }
@@ -156,9 +175,9 @@ export default Calorie = () => {
 
 
 
-      <Modal visible={modalWindow} animationType='fade' transparent={true} >
+      <Modal isVisible={modalWindow} animationIn={'zoomIn'} animationOut={'zoomOut'} backdropOpacity={0.6} transparent={true} >
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <View style={{width: 300, height: 360, backgroundColor:/* '#7F9974' */'#949494', borderRadius: 10, borderWidth: 2, borderColor: '#767676'}}>
+          <View style={{width: 300, height: 360, backgroundColor:'#84B070', borderRadius: 10, borderWidth: 2, borderColor: '#698C59'}}>
 
             <View style={{flexDirection:'row-reverse', marginTop: 5, marginLeft: 5}}>
               <TouchableOpacity onPress={() => setModalWindow(false)}>
@@ -174,7 +193,8 @@ export default Calorie = () => {
                 itemStyle={{color: 'red', backgroundColor: 'lightgray'}}
                 onValueChange={(itemValue, itemIndex) =>
                   setSelectedValue(itemValue)
-                }>
+                }
+              >
                 <Picker.Item label="Завтрак" value="Завтрак" />
                 <Picker.Item label="Обед" value="Обед" />
                 <Picker.Item label="Ужин" value="Ужин" />
@@ -183,34 +203,21 @@ export default Calorie = () => {
             </View>
             
             <View style={{alignItems: 'center'}}>
-              <View style={{flexDirection: 'row', gap: 10}}>
-                <View style={{marginTop: '7%'}}>
-                  <MaterialCommunityIcons name="food-drumstick" size={30} color="#993D3D" />
-                </View>
-                
-                <CustomInput 
-                  placeholder='Название еды' 
-                  value={food} 
-                  setValue={text => setFood(text)}
-                  type='SECONDARY'
-                />
-              </View>
-              
-              <View style={{flexDirection: 'row', gap: 10}}>
-                <View style={{marginTop: '6%'}}>
-                  <Octicons name="number" size={30} color="#993D3D" />
-                </View>
-            
-                <CustomInput 
-                  placeholder='Кол-во калорий' 
-                  value={calorie} 
-                  setValue={text => setCalorie(text)}
-                  type='SECONDARY'
-                  keyboardtype = 'numeric'
-                />
-              </View>
-              
 
+              <CustomInput 
+                placeholder='Название еды' 
+                value={food} 
+                setValue={text => setFood(text)}
+                type='SECONDARY'
+              />
+              <CustomInput 
+                placeholder='Кол-во калорий' 
+                value={calorie} 
+                setValue={text => setCalorie(text)}
+                type='SECONDARY'
+                keyboardtype = 'numeric'
+              />
+          
               <TouchableOpacity onPress={handleSubmit}>
                 {loading ? <ActivityIndicator size="large" color="black" style={{marginTop: 10}}/> : 
                 <AntDesign name="checkcircleo" size={50} color="black" style={{marginTop: 10}}/>}
@@ -221,6 +228,34 @@ export default Calorie = () => {
           </View>
         </View>
       </Modal>
+
+      <AwesomeAlert
+        show={alertWindow}
+        title="Успешно"
+        titleStyle={{
+          fontSize: 20,
+          color:'#133337'
+        }}
+        message="Ваш прием пищи добавлен"
+        messageStyle={{
+          fontSize: 16
+        }}
+
+        showConfirmButton={true}
+        confirmText="Ок"
+        confirmButtonColor="#A76C63"
+        confirmButtonStyle={{
+          width:'50%',
+          alignItems:'center',
+          justifyContent:'center',
+          borderRadius: 25,
+        }}
+        confirmButtonTextStyle={{
+          fontSize: 16,
+          fontWeight: 'bold'
+        }}
+        onConfirmPressed={() => setAlertWindow(false)}
+      />
 
     </SafeAreaView>
   )
@@ -288,7 +323,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     margin: '3%',
-    backgroundColor: /* '#79906E' */ '#B4B4B4'
+    backgroundColor: /* '#79906E' */ '#A8C79A',
   },
   button_container: {
     marginTop: '6%', 

@@ -41,12 +41,13 @@ const styles = StyleSheet.create({
 
         paddingHorizontal: 10,
         marginVertical: 10,
+        width: '70%'
     },
     input_SECONDARY: {
         fontSize: 18,
         borderBottomWidth: 2,
         borderColor: 'black',
         textAlign: 'center',
-        marginVertical: '2%',
+        marginVertical: '1%',
     },
 });

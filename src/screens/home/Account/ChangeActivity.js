@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, ActivityIndicator} from 'react-native';
 
+import AwesomeAlert from 'react-native-awesome-alerts';
 import { CheckBox } from '@rneui/themed';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -26,6 +27,7 @@ const goalOptions = [
 export default ChangeActivity = () => {
     const { user } = useAuth();
     const navigation = useNavigation();
+    const [alertWindow, setAlertWindow] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const [activity, setActivity] = useState('');
@@ -65,8 +67,7 @@ export default ChangeActivity = () => {
                   goalRatio: goalRatio
               });
           }
-          navigation.navigate(ROUTES.ACCOUNT)
-          Alert.alert('Ваша активность и цель изменены');
+          setAlertWindow(true);
         } catch (err) {
             console.log('got error: ', err.message)
         } finally {
@@ -125,6 +126,34 @@ export default ChangeActivity = () => {
             />
             
         </View>
+
+        <AwesomeAlert
+          show={alertWindow}
+          title="Успешно"
+          titleStyle={{
+          fontSize: 20,
+          color:'#133337'
+          }}
+          message="Ваша цель и активность были изменены"
+          messageStyle={{
+          fontSize: 16
+          }}
+
+          showConfirmButton={true}
+          confirmText="Ок"
+          confirmButtonColor="#A76C63"
+          confirmButtonStyle={{
+          width:'50%',
+          alignItems:'center',
+          justifyContent:'center',
+          borderRadius: 25,
+          }}
+          confirmButtonTextStyle={{
+          fontSize: 16,
+          fontWeight: 'bold'
+          }}
+          onConfirmPressed={() => {setAlertWindow(false), navigation.navigate(ROUTES.ACCOUNT)}}
+        />
       </ScrollView>
         
     )
@@ -141,8 +170,8 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    fontSize: 15,
-    color: '#0F8D47'
+    fontSize: 17,
+    color: '#133337'
   },
   loadingScreen: {
     flex: 1,

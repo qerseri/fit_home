@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Image, ActivityIndicator, TouchableOpacity, ScrollView, Alert} from "react-native";
 import React, { useState, useEffect } from "react";
 
+import AwesomeAlert from 'react-native-awesome-alerts';
 import { Entypo } from '@expo/vector-icons';
 import { doc, updateDoc, getDoc, arrayUnion, arrayRemove, onSnapshot, deleteDoc, collection, getDocs, deleteField} from "firebase/firestore";
 import { firestore } from "../../../config/firebase";
@@ -15,10 +16,13 @@ export default CoachInteraction = () => {
   const { user } = useAuth();
   const [coach, setCoach] = useState(null);
   const [coachId, setCoachId] = useState(null);
+  const [plan, setPlan] = useState('');
 
   const db = firebase.firestore();
   const navigation = useNavigation();
+  const [alertWindow, setAlertWindow] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isPlan, setIsPlan] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -30,9 +34,9 @@ export default CoachInteraction = () => {
       });
       return () => unsubscribe();
     }
-   }, [user])
+  }, [user])
 
-   useEffect(() => {
+  useEffect(() => {
     if (coachId !== null) {
       const fetchCoachData = async () => {
         const coachRef = doc(db, "instructors", coachId);
@@ -45,32 +49,56 @@ export default CoachInteraction = () => {
     }
   }, [coachId]);
 
+  useEffect(() => {
+    if (user) {
+      const planRef = collection(firestore, `connection/${user.connection}/plan`);
+    
+      const unsubscribe = onSnapshot(planRef, (snapshot) => {
+        const planData = snapshot.docs[0]?.data();
+        // Обновление состояния "plan" с помощью данных из документа
+        setPlan(planData?.plan);
+      });
+  
+      return () => unsubscribe();
+    }
+    
+  }, [user]);
+
+  useEffect(() => {
+    if (plan) {
+      setIsPlan(true);
+    } else {
+      setIsPlan(false);
+    }
+  }, [plan]);
+
   const handleCancel = async() => {
       try {
-        setLoading(true)
+        setAlertWindow(false);
+        setLoading(true);
 
         const coachRef = doc(firestore, `instructors/${coachId}`);
         const userRef = doc(firestore, `users/${user.uid}`);
         
         // Получение ссылки на подколлекцию messages
-        const messagesCollectionRef = collection(firestore, `chats/${user.chat}/messages`);
+        const chatCollectionRef = collection(firestore, `connection/${user.connection}/chat`);
         // Получение всех документов в подколлекции
-        const snapshot = await getDocs(messagesCollectionRef);
+        const snapshot = await getDocs(chatCollectionRef);
         // Удаление каждого документа в подколлекции
         snapshot.docs.forEach(async (doc) => {
           await deleteDoc(doc.ref);
         });
-        // Удаление подколлекции messages
-        await deleteField(doc(firestore, 'chats', user.chat), 'messages');
-        await deleteDoc(doc(firestore, 'chats', user.chat));
+        // Удаление подколлекции chat
+        await deleteField(doc(firestore, 'connection', user.connection), 'chat');
+        await deleteDoc(doc(firestore, 'connection', user.connection));
 
         await updateDoc(coachRef, {
           clients: arrayRemove(user.uid),
-          chat: arrayRemove(user.chat),
+          connection: arrayRemove(user.connection),
         });
         await updateDoc(userRef, {
           coach: null,
-          chat: null
+          connection: null
         });
 
         alert('Вы были отвязаны от тренера')
@@ -81,27 +109,6 @@ export default CoachInteraction = () => {
     } 
   }
 
-  const showAlert = () => {
-    Alert.alert(
-      'Подтверждение',
-      'Вы уверены, что хотите отписаться от вашего тренера?',
-      [
-        {
-          text: 'Да',
-          onPress: () => {handleCancel()},
-        },
-        {
-          text: 'Нет',
-          style: 'cancel',
-          onPress: () => {
-            console.log('Нет');
-          },
-        },
-      ],
-      { cancelable: false }
-    );
-  };
-  
   if (!coach) {
     return (
       <ActivityIndicator size="large" color="#58754B" style={styles.loadingScreen}/>
@@ -134,18 +141,63 @@ export default CoachInteraction = () => {
 
       <View style={styles.info_container}>
         <Text style={styles.text}>Индивидуальный план:</Text>
+        {!isPlan ? (
+          <Text style={{textAlign: 'center', marginTop: '15%'}}>Пока отсутствует</Text>
+        ) : (
+            <Text>{plan}</Text>
+        )}
       </View>
-
-      
-      
 
       <View style={{padding: 30}}>
         <CustomButton 
           text={loading ? <ActivityIndicator size="small" color="white" /> : 'Отвязаться от тренера'} 
-          onPress={showAlert}
+          onPress={() => setAlertWindow(true)}
           type='CANCEL_PRIMARY'
         />
       </View>
+
+      <AwesomeAlert
+        show={alertWindow}
+        title="Подтверждение"
+        titleStyle={{
+          fontSize: 20,
+          color:'#133337'
+        }}
+        message="Вы действительно хотите отписаться от тренера? Вся перепика будет удалена"
+        messageStyle={{
+          fontSize: 16
+        }}
+
+        showConfirmButton={true}
+        confirmText="Да"
+        confirmButtonColor="#A76C63"
+        confirmButtonStyle={{
+          width:'50%',
+          alignItems:'center',
+          justifyContent:'center',
+          borderRadius: 25,
+        }}
+        confirmButtonTextStyle={{
+          fontSize: 16,
+          fontWeight: 'bold'
+        }}
+        onConfirmPressed={handleCancel}
+
+        showCancelButton={true}
+        cancelText="Нет"
+        cancelButtonColor="#86A280"
+        cancelButtonStyle={{
+          width:'50%',
+          alignItems:'center',
+          justifyContent:'center',
+          borderRadius: 25,
+        }}
+        cancelButtonTextStyle={{
+          fontSize: 16,
+          fontWeight: 'bold'
+        }}
+        onCancelPressed={() => setAlertWindow(false)}
+      />
     </ScrollView>
   );
 };
@@ -164,8 +216,7 @@ const styles = StyleSheet.create({
     margin: 5,
     padding: 10,
     borderRadius: 5,
-    gap: 3,
-    height: 200,
+    gap: 4,
   },
   chat_container: {
     width: 60,

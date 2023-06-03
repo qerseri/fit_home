@@ -6,6 +6,7 @@ import { firestore } from '../../../config/firebase';
 import { getDoc, doc, updateDoc } from 'firebase/firestore';
 import {ROUTES, CustomInput, CustomButton,} from '../../../components';
 
+import AwesomeAlert from 'react-native-awesome-alerts';
 import { useNavigation } from '@react-navigation/native';
 import { CheckBox } from '@rneui/themed';
 import { MaterialCommunityIcons, Foundation } from '@expo/vector-icons';
@@ -18,6 +19,7 @@ const options = [
 export default ChangeInfo = () => {
     const { user } = useAuth();
     const navigation = useNavigation();
+    const [alertWindow, setAlertWindow] = useState(false);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -69,8 +71,8 @@ export default ChangeInfo = () => {
                         gender: gender
                     });
                 }
-                navigation.navigate(ROUTES.ACCOUNT)
-                Alert.alert('Ваши данные успешно изменены');
+                setAlertWindow(true);
+
             } catch (err) {
                 console.log('got error: ', err.message)
             } finally {
@@ -169,7 +171,34 @@ export default ChangeInfo = () => {
                     onPress={handleSubmit}
                 />
             </View>
+            
+            <AwesomeAlert
+                show={alertWindow}
+                title="Успешно"
+                titleStyle={{
+                fontSize: 20,
+                color:'#133337'
+                }}
+                message="Ваши данные были изменены"
+                messageStyle={{
+                fontSize: 16
+                }}
 
+                showConfirmButton={true}
+                confirmText="Ок"
+                confirmButtonColor="#A76C63"
+                confirmButtonStyle={{
+                width:'50%',
+                alignItems:'center',
+                justifyContent:'center',
+                borderRadius: 25,
+                }}
+                confirmButtonTextStyle={{
+                fontSize: 16,
+                fontWeight: 'bold'
+                }}
+                onConfirmPressed={() => {setAlertWindow(false), navigation.navigate(ROUTES.ACCOUNT)}}
+            />
         </ScrollView>
     )
 }

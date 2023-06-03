@@ -13,28 +13,32 @@ const Main = () => {
 
   return (
    
-      <SafeAreaView style={styles.root}>
+    <SafeAreaView style={styles.root}>
 
-        <View style={styles.container}>
-          <View>
-            <Text style={styles.text_num}>{workout}</Text>
-            <Text style={styles.text}>WORKOUTS</Text>
-          </View>
-
-          <View>
-            <Text style={styles.text_num}>{calories}</Text>
-            <Text style={styles.text}>KCAL</Text>
-          </View>
-
-          <View>
-            <Text style={styles.text_num}>{minutes}</Text>
-            <Text style={styles.text}>MINS</Text>
-          </View>
+      <View style={styles.container}>
+        <View>
+          <Text style={styles.text_num}>{workout}</Text>
+          <Text style={styles.text}>WORKOUTS</Text>
         </View>
 
-        <FitnessCards/>
+        <View>
+          <Text style={styles.text_num}>{calories}</Text>
+          <Text style={styles.text}>KCAL</Text>
+        </View>
 
-      </SafeAreaView>
+        <View>
+          <Text style={styles.text_num}>{minutes}</Text>
+          <Text style={styles.text}>MINS</Text>
+        </View>
+      </View>
+
+      <View style={styles.coach_container}>
+
+      </View>
+
+      <FitnessCards/>
+
+    </SafeAreaView>
     
   );
 };
@@ -55,6 +59,9 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 5,
     borderRadius: 5,
+  },
+  coach_container: {
+
   },
   text: {
     color: "#D0D0D0", 
