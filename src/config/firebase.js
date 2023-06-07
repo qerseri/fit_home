@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-
 import {getAuth} from 'firebase/auth';
 import { getStorage } from "firebase/storage";
 import { getFirestore, doc, setDoc, getDoc} from 'firebase/firestore';
@@ -20,7 +19,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
-
 export const auth = getAuth(app);
 export const firestore = getFirestore(app);
 export const storage = getStorage(app);
@@ -29,9 +27,7 @@ export const storage = getStorage(app);
 export const createUserDocument = async (user, additionalData) => {
   if (!user) return
   
-  // Получение ссылки на документ пользователя
   const userRef = doc(firestore, `users/${user.uid}`);
-  // Проверка наличия документа пользователя в Firestore
   const snapshot = await getDoc(userRef);
 
   if(snapshot.exists) {
@@ -51,7 +47,6 @@ export const createUserDocument = async (user, additionalData) => {
     const coach = null;
 
     try{
-      // Создание документа пользователя
       await setDoc(
         userRef,
         {
@@ -66,5 +61,4 @@ export const createUserDocument = async (user, additionalData) => {
 }
 
 firebase.initializeApp(firebaseConfig);
-
 export {firebase};

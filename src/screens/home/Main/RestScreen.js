@@ -33,7 +33,7 @@ const RestScreen = () => {
         style={{ width: "100%", height: 320 }}
       />
 
-      <Text style={styles.text}>TAKE A BREAK!</Text>
+      <Text style={styles.text}>СДЕЛАЙТЕ ПЕРЕРЫВ !</Text>
       <Text style={styles.text}>{timeLeft}</Text>
 
     </SafeAreaView>

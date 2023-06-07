@@ -48,7 +48,7 @@ export default ActivityAndGoal = ({route}) => {
     };
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        
         <SafeAreaView style={styles.root}>
             <View style={styles.container}>
 
@@ -88,7 +88,7 @@ export default ActivityAndGoal = ({route}) => {
                 
             </View>
         </SafeAreaView>
-        </ScrollView>
+        
     )
 }
 
@@ -104,6 +104,6 @@ const styles = StyleSheet.create({
     text: {
         textAlign: 'center',
         fontSize: 15,
-        color: '#0F8D47'
+        color: '#133337'
     }
 });

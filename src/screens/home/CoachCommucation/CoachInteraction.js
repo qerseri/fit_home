@@ -100,8 +100,6 @@ export default CoachInteraction = () => {
           coach: null,
           connection: null
         });
-
-        alert('Вы были отвязаны от тренера')
       } catch (err) {
         console.log('error for sign up with coach: ', err.message)
       } finally {
@@ -144,7 +142,7 @@ export default CoachInteraction = () => {
         {!isPlan ? (
           <Text style={{textAlign: 'center', marginTop: '15%'}}>Пока отсутствует</Text>
         ) : (
-            <Text>{plan}</Text>
+            <Text style={styles.plan_text}>{plan}</Text>
         )}
       </View>
 
@@ -243,7 +241,13 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold'
+  },
+  plan_text: {
+    fontSize: 16,
+    color: 'white'
   },
   image: {
     width: 100,

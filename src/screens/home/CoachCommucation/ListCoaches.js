@@ -6,44 +6,17 @@ import { useNavigation } from "@react-navigation/core";
 import { ROUTES } from "../../../components";
 import useAuth from '../../../config/useAuth';
 
-import { firestore } from "../../../config/firebase";
-import { doc, updateDoc, getDoc, onSnapshot} from "firebase/firestore";
-
 import logo from "../../../../assets/images/logo.png";
 
 export default ListCoaches = () => {
   const { user } = useAuth();
   const [coaches, setCoaches] = useState([]);
-  const [isCoachActive, setIsCoachActive] = useState(false);
 
   const db = firebase.firestore();
   const navigation = useNavigation();
   const [pressedIndex, setPressedIndex] = useState(null);
   
-  /* useEffect(() => {
-    if (user) {
-      const unsubscribe = onSnapshot(doc(firestore, `users/${user.uid}`), (doc) => {
-        const userData = doc.data();
-        if (userData && userData.coach !== undefined && userData.coach !== null) {
-          setIsCoachActive(true);
-        } else {
-          setIsCoachActive(false);
-        }
-      });
-
-      return () => unsubscribe();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (isCoachActive) {
-      navigation.navigate(ROUTES.COACH_INTERACTION);
-    } else {
-      navigation.navigate(ROUTES.LIST_COACHES);
-    }
-    setIsLoading(false)
-  }, [isCoachActive]); */
-
+  
   useEffect(() => {
     const unsubscribe = db.collection("instructors").onSnapshot((snapshot) => {
       const coachesData = snapshot.docs.map((doc) => ({

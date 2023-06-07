@@ -67,20 +67,17 @@ export default Calorie = () => {
     fetchData();
   }, []);
 
-  const handleSubmit = async () => {
-
+  const addFood = async () => {
     if (!food || !calorie) {
       alert('заполните все поля')
       return;
     }
-    
     setLoading(true);
 
     try {
       const userRef = doc(firestore, 'users', user.uid);
-
-      /* setCurrentDate(new Date().toISOString().split('T')[0]); */
       const mealType = selectedValue;
+
       const foodData = {
         food: food,
         calorie: calorie,
@@ -89,16 +86,13 @@ export default Calorie = () => {
       };
 
       const currentDateRef = doc(userRef, 'food', currentDate);
-
-      // Проверяем, существует ли документ currentDate
       const currentDateSnap = await getDoc(currentDateRef);
+
       if (currentDateSnap.exists()) {
-        // Если документ существует, обновляем поле date
         await updateDoc(currentDateRef, {
           date: currentDate,
         });
       } else {
-        // Если документ не существует, создаем его с полем date
         await setDoc(currentDateRef, {
           date: currentDate,
         });
@@ -107,7 +101,6 @@ export default Calorie = () => {
       const mealsRef = collection(currentDateRef, 'meals');
       await addDoc(mealsRef, foodData);
 
-      // Обновление состояний leftCalorie и eatenCalorie
       const updatedEatenCalorie = eatenCalorie + parseInt(calorie);
       const updatedLeftCalorie = dayCalorie - updatedEatenCalorie;
   
@@ -218,7 +211,7 @@ export default Calorie = () => {
                 keyboardtype = 'numeric'
               />
           
-              <TouchableOpacity onPress={handleSubmit}>
+              <TouchableOpacity onPress={addFood}>
                 {loading ? <ActivityIndicator size="large" color="black" style={{marginTop: 10}}/> : 
                 <AntDesign name="checkcircleo" size={50} color="black" style={{marginTop: 10}}/>}
               </TouchableOpacity>

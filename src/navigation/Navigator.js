@@ -2,7 +2,6 @@ import {SafeAreaView, StyleSheet,} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {MaterialIcons, Feather} from '@expo/vector-icons';
-
 import AccountNavigator from './AccountNavigator';
 import HomeNavigator from './HomeNavigator';
 import CoachNavigator from './CoachNavigator';
@@ -74,9 +73,7 @@ export default Navigator = () => {
                     ) 
                 }}
             />
-
         </Tab.Navigator>
-        
     );
 };
 

@@ -27,7 +27,6 @@ export default Register = ({route}) => {
         setLoading(true)
         const {user} = await createUserWithEmailAndPassword(auth, email, password)
         await createUserDocument(user, {
-          /* username, */ 
           firstname,
           lastname,
           gender, 
